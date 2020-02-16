@@ -22,6 +22,7 @@
 
     <?php 
 include("header.php");
+var_dump(Config::dbCon());
     ?>
 
     <main role="main" class="container">
