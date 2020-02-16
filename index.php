@@ -22,7 +22,8 @@
 
     <?php 
 include("header.php");
-var_dump(Config::dbCon());
+$u = new User("qwertz");
+var_dump($u);
     ?>
 
     <main role="main" class="container">
