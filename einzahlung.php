@@ -20,25 +20,18 @@
 
   <body>
 
-    <?php 
-include("header.php");
-    ?>
+    <?php include("header.php");?>
 
     <main role="main" class="container">
 
       <div class="starter-template">
-        <h1>Getränkeverkauf <small class="text-muted">Neu, jetzt noch besser!</small></h1>
-        <p class="lead">Teilnehmis und Mentoris haben Durst. Dein Job ist, dem Abhilfe zu schaffen.</p>
-        <a class="btn btn-primary btn-lg btn-block" href="einzahlung.php" role="button">Einzahlung</a>
-        <a class="btn btn-primary btn-lg btn-block" href="ausgabe.php" role="button">Ausgabe</a>
-        <a class="btn btn-primary btn-lg btn-block" href="kassenstand.php" role="button">Abrufen Kontostand (auch oben rechts)</a>
-        <a class="btn btn-danger btn-lg btn-block disabled" href="#" role="button">Leerstandmeldung</a>
-        <a class="btn btn-danger btn-lg btn-block disabled" href="konto-leeren.php" role="button">Konto leeren</a>
+        <h1>Einzahlung<small class="text-muted">Show me all your monney!</small></h1>
+        <?php //TODO: Machen! ?>
         
 
       </div>
 
     </main>
-    <?php include ("footer.php");  ?>
+  <?php include ("footer.php");  ?>
   </body>
 </html>

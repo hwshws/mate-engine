@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,20 +20,17 @@
 
   <body>
 
-    <?php 
-include("header.php");
-    ?>
+    <?php include("header.php");?>
 
     <main role="main" class="container">
 
       <div class="starter-template">
         <h1>Getränkeverkauf <small class="text-muted">Neu, jetzt noch besser!</small></h1>
         <p class="lead">Teilnehmis und Mentoris haben Durst. Dein Job ist, dem Abhilfe zu schaffen.</p>
-        <a class="btn btn-primary btn-lg btn-block" href="einzahlung.php" role="button">Einzahlung</a>
-        <a class="btn btn-primary btn-lg btn-block" href="ausgabe.php" role="button">Ausgabe</a>
-        <a class="btn btn-primary btn-lg btn-block" href="kassenstand.php" role="button">Abrufen Kontostand (auch oben rechts)</a>
+        <a class="btn btn-primary btn-lg btn-block" href="#" role="button">Einzahlung</a>
+        <a class="btn btn-primary btn-lg btn-block" href="#" role="button">Ausgabe</a>
+        <a class="btn btn-primary btn-lg btn-block" href="#" role="button">Abrufen Kontostand (auch oben rechts)</a>
         <a class="btn btn-danger btn-lg btn-block disabled" href="#" role="button">Leerstandmeldung</a>
-        <a class="btn btn-danger btn-lg btn-block disabled" href="konto-leeren.php" role="button">Konto leeren</a>
         
 
       </div>
