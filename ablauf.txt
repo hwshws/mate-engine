@@ -1,0 +1,11 @@
+Einzahlung
+QR-TN -> MySQL-Validierung -> QR Infodesk -> Betrag in € -> Betrag in Datenbank + Gerade eingezahlter Betrag -> MySQL Update mate.user.guthaben -> add to Log
+
+Ausgabe
+QR-TN -> MySQL-Validierung -> QR Infodesk -> Was wieviel (nice to have - add to cat, mehr als ein Produkt je Vorgang) -> MySQL Update mate.user.guthaben -> add to Log -> MySQL update mate.getraenke -> Bei Meldung, dass Produkt X unter Wert Y, Meldung via zulip
+
+Kontostand anzeigen
+fertig
+
+Konto leeren
+QR-TN -> MySQL-Validierung -> QR Infodesk -> Anzeige Restbetrag -> Betrag auszahlen -> Button bestätigen -> MySQL Update mate.user.guthaben
