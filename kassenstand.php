@@ -29,13 +29,11 @@
             
             <?php
           $abfrage = $_POST["qr"];
-          $con=mysqli_connect("localhost","mate","mate","mate");
+          $con=mysqli_connect("localhost","root","","mate");
             // Check connection
-            if (mysqli_connect_errno())
-    {
+            if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    }
-    $result = mysqli_query($con,"SELECT `vorname`,`nachname`, guthaben FROM `user` WHERE secret = '$abfrage'"); 
+    }    $result = mysqli_query($con,"SELECT `vorname`,`nachname`, guthaben FROM `user` WHERE secret = '$abfrage'");
 
     echo "<table class='table'>
     <tr>
