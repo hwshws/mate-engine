@@ -21,7 +21,8 @@
   <body>
 
     <?php 
-include("header.php");
+include("includes/header.php");
+include ("utility/User.php");
 $u = new User("qwertz");
 var_dump($u);
     ?>
