@@ -10,5 +10,5 @@
 <!-- Custom styles for this template -->
 <link href="assets/css/app.css" rel="stylesheet">
 <?php
-    require_once "../db/dbconnector.php";
+    require "db/dbconnector.php";
 ?>

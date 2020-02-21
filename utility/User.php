@@ -13,7 +13,7 @@ class User
 
     public function __construct($secret)
     {
-        $this->dbh = Config::dbCon();
+        $this->dbh = $pdo;
         $this->secret = $secret;
         $this->reloadUserData();
     }
@@ -34,7 +34,7 @@ class User
 
     public function userExists(){
         try {
-            $stmt = $this->dbh->prepare("SELECT * FROM user WHERE secret=:secret");
+            $stmt = $this->dbh->prepare("SELECT * FROM users WHERE secret=:secret");
             $stmt->bindParam(":secret", $this->secret);
             $stmt->execute();
             $res = $stmt->fetchAll();
@@ -52,7 +52,7 @@ class User
 
     public function fetchUserData(){
         try {
-            $stmt = $this->dbh->prepare("SELECT * FROM user WHERE secret=:secret");
+            $stmt = $this->dbh->prepare("SELECT * FROM users WHERE secret=:secret");
             $stmt->bindParam(":secret", $this->secret);
             $stmt->execute();
             $res = $stmt->fetchAll();
