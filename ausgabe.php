@@ -9,18 +9,17 @@
 
     <title>mate-engine - Getränkeverkauf bei JHULM</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="starter-template.css" rel="stylesheet">
+    <link href="assets/css/app.css" rel="stylesheet">
   </head>
 
   <body>
 
-    <?php include("header.php");?>
+    <?php include("includes/header.php");?>
 
     <main role="main" class="container">
 
@@ -36,6 +35,6 @@
       </div>
 
     </main>
-    <?php include ("footer.php");  ?>
+    <?php include ("includes/footer.php");  ?>
   </body>
 </html>
