@@ -18,21 +18,23 @@ class User
         $this->reloadUserData();
     }
 
-    private function reloadUserData(){
-        if($this->userExists()){
+    private function reloadUserData()
+    {
+        if ($this->userExists()) {
             $userData = $this->fetchUserData();
             $this->user_id = $userData["ID"];
             $this->vorname = $userData["vorname"];
             $this->nachname = $userData["nachname"];
             $this->guthaben = $userData["guthaben"];
             $this->secret = $userData["secret"];
-            if($userData["ausgabe-ok"] == "1"){
+            if ($userData["ausgabe-ok"] == "1") {
                 $this->is_authorized = true;
             }
         }
     }
 
-    public function userExists(){
+    public function userExists()
+    {
         try {
             $stmt = $this->dbh->prepare("SELECT * FROM users WHERE secret=:secret");
             $stmt->bindParam(":secret", $this->secret);
@@ -50,7 +52,8 @@ class User
         }
     }
 
-    public function fetchUserData(){
+    public function fetchUserData()
+    {
         try {
             $stmt = $this->dbh->prepare("SELECT * FROM users WHERE secret=:secret");
             $stmt->bindParam(":secret", $this->secret);
