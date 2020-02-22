@@ -5,7 +5,7 @@ require 'config.php';
 class Pretix
 {
 
-    private static $baseURI = "pretix.eu/api/v1/organizers/" . pretixOrga . "/events/" . pretixEvent;
+    private static $baseURI = pretixHost . "/api/v1/organizers/" . pretixOrga . "/events/" . pretixEvent;
 
     public static function fetchPretixUsers()
     {

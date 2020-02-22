@@ -2,3 +2,4 @@
 const pretixToken = '<Pretix API Token>';
 const pretixEvent = '<Pretix Event>';
 const pretixOrga = '<Pretix Organization>';
+const pretixHost = '<Pretix Host>'
