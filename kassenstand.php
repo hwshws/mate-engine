@@ -13,6 +13,7 @@
       
           <div class="starter-template">
             <h1>Getränk mate-everkauf <small class="text-muted">Neu, jetzt noch besser!</small></h1>
+    <?php
 
     echo "<table class='table'>
     <tr>
