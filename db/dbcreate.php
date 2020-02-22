@@ -13,9 +13,9 @@ $pdo->query("CREATE TABLE IF NOT EXISTS users (
 $pdo->query("CREATE TABLE IF NOT EXISTS balance (
     id INT NOT NULL AUTO_INCREMENT,
     uid INT NOT NULL,
-    FOREIGN KEY (uid) REFERENCES users (id),
+    balance DECIMAL NOT NULL,
     PRIMARY KEY (id),
-    balance DECIMAL NOT NULL 
+    FOREIGN KEY (uid) REFERENCES users (id)
 )");
 
 echo "Added tables successfully!";
