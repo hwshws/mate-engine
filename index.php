@@ -10,9 +10,11 @@
 <?php
 include("includes/header.php");
 include("utility/User.php");
-require 'utility/Pretix.php';
+// require 'utility/Pretix.php';
 // $u = new User("qwertz");
 // var_dump($u);
+
+echo md5("1234");
 ?>
 
 <main role="main" class="container">
