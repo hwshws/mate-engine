@@ -1,44 +1,40 @@
 <!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="mate-engine - Getränkeverkauf bei JHULM">
-    <meta name="author" content="hwshws">
-    <link rel="icon" href="https://jugendhackt.org/wp-content/themes/jh-lauch-theme/images/favicon/favicon.ico">
-
+<head>
     <title>mate-engine - Getränkeverkauf bei JHULM</title>
+    <?php require_once "includes/head.php"; ?>
+</head>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
+<body>
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+<?php
+include("includes/header.php");
+include("utility/User.php");
+require 'utility/Pretix.php';
+// $u = new User("qwertz");
+// var_dump($u);
+?>
 
-    <!-- Custom styles for this template -->
-    <link href="starter-template.css" rel="stylesheet">
-  </head>
+<main role="main" class="container">
 
-  <body>
-
-    <?php 
-include("header.php");
-    ?>
-
-    <main role="main" class="container">
-
-      <div class="starter-template">
+    <div class="starter-template">
         <h1>Getränkeverkauf <small class="text-muted">Neu, jetzt noch besser!</small></h1>
         <p class="lead">Teilnehmis und Mentoris haben Durst. Dein Job ist, dem Abhilfe zu schaffen.</p>
         <a class="btn btn-primary btn-lg btn-block" href="einzahlung.php" role="button">Einzahlung</a>
         <a class="btn btn-primary btn-lg btn-block" href="ausgabe.php" role="button">Ausgabe</a>
-        <a class="btn btn-primary btn-lg btn-block" href="kassenstand.php" role="button">Abrufen Kontostand (auch oben rechts)</a>
+        <a class="btn btn-primary btn-lg btn-block" href="kassenstand.php" role="button">Abrufen Kontostand (auch oben
+            rechts)</a>
         <a class="btn btn-danger btn-lg btn-block disabled" href="#" role="button">Leerstandmeldung</a>
         <a class="btn btn-danger btn-lg btn-block disabled" href="konto-leeren.php" role="button">Konto leeren</a>
-        
 
-      </div>
 
-    </main>
-    <?php include ("footer.php");  ?>
-  </body>
+    </div>
+
+    <?php
+        Pretix::fetchPretixUsers();
+    ?>
+
+</main>
+<?php include("includes/footer.php"); ?>
+</body>
 </html>
