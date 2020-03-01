@@ -30,4 +30,13 @@ $pdo->query("CREATE TABLE IF NOT EXISTS transaction_log (
     PRIMARY KEY (id)
 )");
 
+$pdo->query("CREATE TABLE IF NOT EXISTS product_amount (
+    id INT NOT NULL AUTO_INCREMENT,
+    product_id INT NOT NULL,
+    amount INT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products (id),
+    PRIMARY KEY (id)
+)");
+
 echo "Added tables successfully!\n";
