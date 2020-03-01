@@ -37,12 +37,14 @@ elseif ($method === "POST") :
 
     $code = $_POST["code"];
     $secret = $_POST["secret"];
-    $stmt = $pdo->prepare("select permission from users where secret=? and code =?");
+    $stmt = $pdo->prepare("select permission, id from users where secret=? and code =?");
     $stmt->execute([$secret, md5($code)]);
     $permission = $stmt->fetch();
+
     if (!empty($permission)) {
         $_SESSION["isLoggedIn"] = true;
-        if ($permission[0] > 0) {
+        $_SESSION["uid"] = $permission["id"];
+        if ($permission["permission"] > 0) {
             $_SESSION["isAdmin"] = true;
             header("Location: admin.php");
         } else {
