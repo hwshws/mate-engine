@@ -34,7 +34,7 @@ $pdo->query("CREATE TABLE IF NOT EXISTS product_amount (
     id INT NOT NULL AUTO_INCREMENT,
     product_id INT NOT NULL,
     amount INT NOT NULL,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    timestamp TIMESTAMP DEFAULT UTC_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products (id),
     PRIMARY KEY (id)
 )");

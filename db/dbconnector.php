@@ -10,4 +10,3 @@ try {
     echo "Connection to Database failed: " . $e->getMessage();
     exit("Database error");
 }
-?>
