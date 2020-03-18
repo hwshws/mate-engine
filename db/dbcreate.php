@@ -14,7 +14,8 @@ $pdo->query("CREATE TABLE IF NOT EXISTS products (
     id INT NOT NULL AUTO_INCREMENT,
     price DECIMAL NOT NULL,
     name VARCHAR(50) NOT NULL UNIQUE,
-    amount INT NOT NULL,
+    amount DOUBLE NOT NULL,
+    bottles_per_crate INT NOT NULL,
     permission INT DEFAULT 0,
     PRIMARY KEY (id)
 )");
