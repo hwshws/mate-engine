@@ -8,6 +8,18 @@ class dbController
         $stmt->execute([$secret, $initBalance, 0, md5($code)]);
     }
 
+    public static function getUserBalance(PDO $pdo, int $uid)
+    {
+        $user = dbController::getProductById($pdo, $uid);
+        return $user["balance"];
+    }
+
+    public static function addProduct(PDO $pdo, float $price, string $name, float $crate_amount, int $bpc, int $permission = 0)
+    {
+        $stmt = $pdo->prepare("INSERT INTO products (price, name, amount, bottles_per_crate, permission) VALUE (?,?,?,?,?)");
+        $stmt->execute([$price, $name, $crate_amount, $bpc, $permission]);
+    }
+
     public static function transaction(PDO $pdo, int $pid, int $product_amount, string $userSecret, string $authSecret)
     {
         $auth = dbController::getUserBySecret($pdo, $authSecret);
@@ -17,23 +29,28 @@ class dbController
             dbController::changeUserBalance($pdo, $user["id"], $product["price"] * $product_amount);
             dbController::updateProduct($pdo, $pid, $product_amount);
             for ($i = 0; $i < $product_amount; $i++) dbController::updateLog($pdo, $user["id"], $auth["id"], $pid);
+            return true;
         } else {
             echo "Not authorized!";
+            return false;
         }
 
     }
 
-    private static function updateLog(PDO $pdo, int $uid, int $aid, int $pid) {
+    private static function updateLog(PDO $pdo, int $uid, int $aid, int $pid)
+    {
         $stmt = $pdo->prepare("INSERT INTO transaction_log (uid, auth_uid, product_id) VALUE (?,?,?)");
         $stmt->execute([$uid, $aid, $pid]);
     }
 
-    private static function updateProduct(PDO $pdo, int $pid, int $amount) {
+    private static function updateProduct(PDO $pdo, int $pid, int $amount)
+    {
         $stmt = $pdo->prepare("UPDATE products SET amount = amount - (? / bottles_per_crate) WHERE id = ?");
         $stmt->execute([$amount, $pid]);
     }
 
-    private static function changeUserBalance(PDO $pdo, int $uid, float $amount) {
+    private static function changeUserBalance(PDO $pdo, int $uid, float $amount)
+    {
         $stmt = $pdo->prepare("UPDATE users SET balance = balance + ? WHERE id = ?");
         $stmt->execute([$amount, $uid]);
     }
@@ -42,6 +59,13 @@ class dbController
     {
         $stmt = $pdo->prepare("SELECT id, secret, balance, permission, code FROM users WHERE secret = ?");
         $stmt->execute([$secret]);
+        return $stmt->fetch();
+    }
+
+    private static function getUserById(PDO $pdo, int $uid)
+    {
+        $stmt = $pdo->prepare("SELECT id, secret, balance, permission, code FROM users WHERE id = ?");
+        $stmt->execute([$uid]);
         return $stmt->fetch();
     }
 
