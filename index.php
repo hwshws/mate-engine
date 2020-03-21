@@ -1,8 +1,10 @@
 <?php
-require "db/dbconnector.php";
-$method = $_SERVER["REQUEST_METHOD"];
 session_start();
-if ($method === "GET") :
+
+if ($_SESSION["isLoggedIn"]) :
+    if ($_SESSION["isAdmin"]) header("Location: admin.php");
+    else header("Location: user.php");
+else :
     ?>
     <!doctype html>
     <html lang="de">
@@ -19,9 +21,9 @@ if ($method === "GET") :
 
         <div class="starter-template">
             <h1>Login</h1>
-            <form method="post">
-                <input type="text" name="secret"><br>
-                <input type="text" name="code"><br>
+            <form method="post" action="controller/login.php">
+                <input type="text" name="secret" placeholder="Secret"><br>
+                <input type="text" name="code" placeholder="Code"><br>
                 <input type="submit" value="submit">
             </form>
         </div>
@@ -30,30 +32,6 @@ if ($method === "GET") :
     <?php include("includes/footer.php"); ?>
     </body>
     </html>
-
 <?php
-
-elseif ($method === "POST") :
-
-    $code = $_POST["code"];
-    $secret = $_POST["secret"];
-    $stmt = $pdo->prepare("select permission, id from users where secret=? and code =?");
-    $stmt->execute([$secret, md5($code)]);
-    $permission = $stmt->fetch();
-
-    if (!empty($permission)) {
-        $_SESSION["isLoggedIn"] = true;
-        $_SESSION["uid"] = $permission["id"];
-        if ($permission["permission"] > 0) {
-            $_SESSION["isAdmin"] = true;
-            header("Location: admin.php");
-        } else {
-            $_SESSION["isAdmin"] = false;
-            header("Location: user.php");
-        }
-    } else {
-        header("Location: index.php?err=Login");
-    }
 endif;
-
 ?>
