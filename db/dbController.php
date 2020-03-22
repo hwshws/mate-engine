@@ -30,7 +30,7 @@ class dbController
     /**
      * Get user balance by the secret
      * @param PDO $pdo
-     * @param int $uid
+     * @param string $secret
      * @return mixed
      */
     public static function getUserBalanceBySecret(PDO $pdo, string $secret)
@@ -68,19 +68,28 @@ class dbController
         $auth = dbController::getUserBySecret($pdo, $authSecret);
         $user = dbController::getUserBySecret($pdo, $userSecret);
         $product = dbController::getProductById($pdo, $pid);
-        if ($auth["permission"] > 0) {
-            if ($user["balance"] > $product["price"] * $product_amount) {
-                dbController::changeUserBalance($pdo, $user["id"], $product["price"] * $product_amount);
-                dbController::updateProduct($pdo, $pid, $product_amount);
-                for ($i = 0; $i < $product_amount; $i++) dbController::updateLog($pdo, $user["id"], $auth["id"], $pid);
-                return true;
+        if (isset($product)) {
+            if (isset($auth) && isset($user)) {
+                if ($auth["permission"] > 0) {
+                    if ($user["balance"] > $product["price"] * $product_amount) {
+                        dbController::changeUserBalance($pdo, $user["id"], $product["price"] * $product_amount);
+                        dbController::updateProduct($pdo, $pid, $product_amount);
+                        for ($i = 0; $i < $product_amount; $i++) dbController::updateLog($pdo, $user["id"], $auth["id"], $pid);
+                        return true;
+                    }
+                    echo "Not enough money";
+                    return false;
+                } else {
+                    echo "Not authorized!";
+                    return false;
+                }
             }
-            echo "Not enough money";
-            return false;
-        } else {
-            echo "Not authorized!";
+            echo "User error";
             return false;
         }
+        echo "Product not found";
+        return false;
+
 
     }
 
@@ -180,7 +189,8 @@ class dbController
      * @param PDO $pdo
      * @return array
      */
-    public static function getProducts(PDO $pdo) {
+    public static function getProducts(PDO $pdo)
+    {
         $stmt = $pdo->query("SELECT * FROM products");
         return $stmt->fetchAll();
     }
@@ -205,7 +215,8 @@ class dbController
      * @param string $userCode
      * @return bool
      */
-    public static function validateUser(PDO $pdo, string $userSecret, string $userCode) {
+    public static function validateUser(PDO $pdo, string $userSecret, string $userCode)
+    {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE secret = ? AND code = ?");
         $stmt->execute([$userSecret, md5($userCode)]);
         return !empty($stmt->fetch());
