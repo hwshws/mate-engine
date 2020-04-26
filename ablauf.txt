@@ -9,3 +9,7 @@ fertig
 
 Konto leeren
 QR-TN -> MySQL-Validierung -> QR Infodesk -> Anzeige Restbetrag -> Betrag auszahlen -> Button bestätigen -> MySQL Update mate.user.guthaben
+
+Grafana
+MySQL-Tabelle -> Grafana-Dashboard
+Frage: Public / nicht so public --> //Todo
