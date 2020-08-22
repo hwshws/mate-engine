@@ -6,7 +6,7 @@ print_r($_POST);
 
 if (dbController::validateUser($pdo, $_POST['userSecret'], $_POST['userCode'])) {
     if (dbController::validateUser($pdo, $_POST['authSecret'], $_POST['authCode'])) {
-        if (dbController::transaction($pdo, $_POST['product'], 1, $_POST['userSecret'], $_POST['authSecret'])) {
+        if (dbController::transaction($pdo, $_POST['product'], (int)$_POST['amount'], $_POST['userSecret'], $_POST['authSecret'])) {
             header("Location: ../home");
         } else {
             echo "Something went horribly wrong";
