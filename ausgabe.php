@@ -33,7 +33,7 @@ else :
                     }
                     ?>
                 </select> <br>
-                <input type="number" name="amount" placeholder="Amount" /> <br>
+                <input type="number" name="amount" placeholder="Amount" min="1" /> <br>
                 <input type="text" name="authSecret" placeholder="authSecret" /> <br>
                 <input type="number" name="authCode" placeholder="authCode" /> <br>
                 <input type="text" name="userSecret" placeholder="userSecret" /> <br>
