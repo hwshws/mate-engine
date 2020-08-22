@@ -203,8 +203,14 @@ class dbController
     public static function parseProductCSV(PDO $pdo, string $fn)
     {
         $hndl = fopen($fn, "r");
-        while ($data = fgetcsv($hndl, 1000, ","))
+        $flag = true;
+        while ($data = fgetcsv($hndl, 1000, ",")) {
+            if ($flag) {
+                $flag = false;
+                continue;
+            }
             dbController::addProduct($pdo, $data[0], $data[1], $data[2], $data[3], $data[4]);
+        }
         fclose($hndl);
     }
 
