@@ -4,7 +4,7 @@ require_once "dbconnector.php";
 $pdo->query("CREATE TABLE IF NOT EXISTS users (
     id INT NOT NULL AUTO_INCREMENT,
     secret VARCHAR(64) NOT NULL UNIQUE,
-    balance DECIMAL NOT NULL,
+    balance DECIMAL(4, 2) NOT NULL,
     permission INT NOT NULL DEFAULT 0,
     code VARCHAR(32) NULL,
     PRIMARY KEY (id)
@@ -12,7 +12,7 @@ $pdo->query("CREATE TABLE IF NOT EXISTS users (
 
 $pdo->query("CREATE TABLE IF NOT EXISTS products (
     id INT NOT NULL AUTO_INCREMENT,
-    price DECIMAL NOT NULL,
+    price DECIMAL(4, 2) NOT NULL,
     name VARCHAR(50) NOT NULL UNIQUE,
     amount DOUBLE NOT NULL,
     bottles_per_crate INT NOT NULL,
