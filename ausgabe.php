@@ -22,7 +22,7 @@ else :
 
         <div class="starter-template">
             <h1>Getränkeverkauf <small class="text-muted">Ausgabe</small></h1>
-            <form action="/controller/buy.php" method="post">
+            <form action="controller/buy.php" method="post">
                 <select name="product" id="product-select">
                     <option value="null">Bitte auswählen!</option>
                     <?php
