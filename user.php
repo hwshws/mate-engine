@@ -1,4 +1,6 @@
 <?php
+require_once "db/dbconnector.php";
+require_once "db/dbController.php";
 session_start();
 if (!$_SESSION["isLoggedIn"]) :
     header("Location: index.php");
@@ -15,28 +17,20 @@ else :
 
     <?php
     include("includes/header.php");
-    include("utility/User.php");
-    require 'utility/Pretix.php';
-    // $u = new User("qwertz");
-    // var_dump($u);
     ?>
 
     <main role="main" class="container">
 
         <div class="starter-template">
             <h1>Getränkeverkauf <small class="text-muted">Neu, jetzt noch besser!</small></h1>
-            <p class="lead">Finde heraus, wie viel Geld noch auf deinem Konto ist.</p>
-            <a class="btn btn-primary btn-lg btn-block" href="kassenstand.php" role="button">Abrufen Kontostand (auch
-                oben
-                rechts)</a>
+            <p> Dein Guthaben:
+                <?php
+                    echo number_format((float)dbController::getUserBalance($pdo, $_SESSION["uid"]), 2, ',', ' ') . " €";
+                ?>
+            </p>
 
 
         </div>
-
-        <?php
-        Pretix::fetchPretixUsers();
-        ?>
-
     </main>
     <?php include("includes/footer.php"); ?>
     </body>

@@ -1,0 +1,14 @@
+# Remove “.php” extension in URL
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [NC,L]
+
+# Access /index.php via /home
+RewriteRule ^home/?$ index.php [NC,L]
+
+# Block /db/* path
+# RewriteRule ^db[/]?.*?$ - [F] # Isn't working
+
+# ERROR PAGE
+ErrorDocument 404 /404.php
