@@ -22,14 +22,14 @@ else :
 
         <div class="starter-template">
             <h1>Getränkeverkauf <small class="text-muted">Ausgabe</small></h1>
-            <form action="./controller/add.php" method="post">
+            <form action="./controller/add.php" method="post" style="width: 30%">
 
                 <input type="number" name="amount" placeholder="initialAmount" min="1" /> <br>
                 <div class="input-group input-group-sm mb-3">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend" >
                         <span class="input-group-text" id="inputGroup-sizing-sm">initialAmount</span>
                     </div>
-                    <input type="number" class="form-control"  name="amount" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    <input type="number" min="1" class="form-control"  name="amount" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div><br>
                 <input type="text" name="authSecret" placeholder="authSecret" /> <br>
                 <input type="number" name="authCode" placeholder="authCode" /> <br>
