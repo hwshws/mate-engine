@@ -1,0 +1,13 @@
+name: Update server
+
+on:
+  push:
+    branches: [ master ]
+jobs:
+  curl:
+    runs-on: ubuntu-latest
+    steps:
+    - name: curl
+      uses: wei/curl@master
+      with:
+        args: https://h-ws.de/mate-engine/git.php
