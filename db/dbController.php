@@ -9,10 +9,10 @@ class dbController
      * @param int $code
      * @param float $initBalance
      */
-    public static function createUser(PDO $pdo, string $secret, int $code, float $initBalance) //Wo Permissions hinterlegt?
+    public static function createUser(PDO $pdo, string $secret, int $code, float $initBalance, int $permission) //Wo Permissions hinterlegt?
     {
         $stmt = $pdo->prepare("INSERT INTO users (secret, balance, permission, code) VALUE (?,?,?,?)");
-        $stmt->execute([$secret, $initBalance, 0, md5($code)]);
+        $stmt->execute([$secret, $initBalance, $permission, md5($code)]);
     }
 
     /**
