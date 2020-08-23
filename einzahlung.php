@@ -16,7 +16,13 @@
             <small class="text-muted">Show me all your money!</small>
         </h1>
         <form action="./controller/add.php" method="post">
-
+            <div class="input-group">
+                <input type="text" class="form-control" min="1" step=".01" aria-label="Euro amount (with dot and two decimal places)">
+                <div class="input-group-append">
+                    <span class="input-group-text">€</span>
+                    <span class="input-group-text">0.00</span>
+                </div>
+            </div>
             <input type="number" name="amount" placeholder="Amount" min="1" step=".01" /> <br>
             <input type="text" name="authSecret" placeholder="authSecret" /> <br>
             <input type="number" name="authCode" placeholder="authCode" /> <br>
