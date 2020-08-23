@@ -29,9 +29,10 @@ else :
             <a class="btn btn-primary btn-lg btn-block" href="kassenstand.php" role="button">Abrufen Kontostand (auch
                 oben
                 rechts)</a>
+            <a class="btn btn-danger btn-lg btn-block" href="adduser.php" role="button">Benutzer hinzufügen</a>
             <a class="btn btn-danger btn-lg btn-block disabled" href="#" role="button">Leerstandmeldung</a>
             <a class="btn btn-danger btn-lg btn-block disabled" href="konto-leeren.php" role="button">Konto leeren</a>
-            <a class="btn btn-danger btn-lg btn-block disabled" href="adduser.php" role="button">Benutzer hinzufügen</a>
+            
 
 
         </div>

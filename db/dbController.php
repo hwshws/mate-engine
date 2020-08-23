@@ -227,4 +227,12 @@ class dbController
         $stmt->execute([$userSecret, md5($userCode)]);
         return !empty($stmt->fetch());
     }
+
+
+    public static function isAdmin(PDO $pdo, string $secret, int $code) {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE secret = ? AND code = ?");
+        $stmt->execute([$secret, $code]);
+        $res = $stmt->fetch();
+        return !empty($res) && $res["permisson"] > 0;
+    }
 }
