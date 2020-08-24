@@ -25,7 +25,7 @@ else :
             <h1>Getränkeverkauf <small class="text-muted">Neu, jetzt noch besser!</small></h1>
             <p> Dein Guthaben:
                 <?php
-                    echo number_format((float)dbController::getUserBalance($pdo, $_SESSION["uid"]), 2, ',', ' ') . " €";
+                echo number_format((float)dbController::getUserBalance($pdo, $_SESSION["uid"]), 2, ',', ' ') . " €";
                 ?>
             </p>
 

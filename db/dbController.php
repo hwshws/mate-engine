@@ -8,8 +8,9 @@ class dbController
      * @param string $secret
      * @param int $code
      * @param float $initBalance
+     * @param int $permission
      */
-    public static function createUser(PDO $pdo, string $secret, int $code, float $initBalance, int $permission) //Wo Permissions hinterlegt?
+    public static function createUser(PDO $pdo, string $secret, int $code, float $initBalance, int $permission)
     {
         $stmt = $pdo->prepare("INSERT INTO users (secret, balance, permission, code) VALUE (?,?,?,?)");
         $stmt->execute([$secret, $initBalance, $permission, md5($code)]);
@@ -37,6 +38,15 @@ class dbController
     {
         $user = dbController::getUserBySecret($pdo, $secret);
         return $user["balance"];
+    }
+
+    /**
+     * @param PDO $pdo
+     * @param string $secret
+     */
+    public static function emptyUserAccount(PDO $pdo, string $secret) {
+        $stmt = $pdo->prepare("UPDATE users SET balance = 0 WHERE secret = ?");
+        $stmt->execute([$secret]);
     }
 
     /**
@@ -228,11 +238,17 @@ class dbController
         return !empty($stmt->fetch());
     }
 
-
-    public static function isAdmin(PDO $pdo, string $secret, int $code) {
+    /**
+     * @param PDO $pdo
+     * @param string $secret
+     * @param int $code
+     * @return bool
+     */
+    public static function isAdmin(PDO $pdo, string $secret, int $code)
+    {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE secret = ? AND code = ?");
-        $stmt->execute([$secret, $code]);
+        $stmt->execute([$secret, md5($code)]);
         $res = $stmt->fetch();
-        return !empty($res) && $res["permisson"] > 0;
+        return !empty($res) && $res["permission"] > 0;
     }
 }

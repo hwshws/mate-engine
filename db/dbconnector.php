@@ -8,5 +8,5 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo "Connection to Database failed: " . $e->getMessage();
-    exit("Database error");
+    die("Database error");
 }

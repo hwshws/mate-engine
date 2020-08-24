@@ -22,7 +22,7 @@ else :
 
         <div class="starter-template">
             <h1>Getränkeverkauf <small class="text-muted">Ausgabe</small></h1>
-            <form action="./controller/buy.php" method="post">
+            <form action="controller/buy.php" method="post">
                 <select name="product" id="product-select">
                     <option value="null">Bitte auswählen!</option>
                     <?php
@@ -33,11 +33,11 @@ else :
                     }
                     ?>
                 </select> <br>
-                <input type="number" name="amount" placeholder="Amount" min="1" /> <br>
-                <input type="text" name="authSecret" placeholder="authSecret" /> <br>
-                <input type="number" name="authCode" placeholder="authCode" /> <br>
-                <input type="text" name="userSecret" placeholder="userSecret" /> <br>
-                <input type="number" name="userCode" placeholder="userCode" min="0000" max="9999" /> <br>
+                <input type="number" name="amount" placeholder="Amount" min="1"/> <br>
+                <input type="text" name="authSecret" placeholder="authSecret"/> <br>
+                <input type="number" name="authCode" placeholder="authCode"/> <br>
+                <input type="text" name="userSecret" placeholder="userSecret"/> <br>
+                <input type="number" name="userCode" placeholder="userCode" min="0000" max="9999"/> <br>
                 <input type="submit" value="Kaufen">
             </form>
         </div>

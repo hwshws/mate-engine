@@ -26,43 +26,46 @@ else :
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <!-- TODO: Consider pattern checking -->
-                    <form action="./controller/add.php" method="post">
+                    <form action="controller/add.php" method="post">
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
                                 <label for="amount" class="input-group-text">Startguthaben</label>
                             </div>
-                            <input type="number" min="0" max="99.99" step="0.01" class="form-control" name="amount" id="amount" required />
+                            <input type="number" min="0" max="99.99" step="0.01" class="form-control" name="amount"
+                                   id="amount" required/>
                         </div>
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
                                 <label for="authSecret" class="input-group-text">Admin QR</label>
                             </div>
-                            <input name="authSecret" id="authSecret" class="form-control" required />
+                            <input name="authSecret" id="authSecret" class="form-control" required/>
                         </div>
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
                                 <label for="authCode" class="input-group-text">Admin QR Pin</label>
                             </div>
-                            <input type="number" name="authCode" id="authCode" class="form-control" maxlength="4" required />
+                            <input type="number" name="authCode" id="authCode" class="form-control num-pin"
+                                   maxlength="4" required/>
                         </div>
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
                                 <label for="userSecret" class="input-group-text">User QR</label>
                             </div>
-                            <input name="userSecret" id="userSecret" class="form-control" required />
+                            <input name="userSecret" id="userSecret" class="form-control" required/>
                         </div>
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
                                 <label for="userCode" class="input-group-text">User QR Pin</label>
                             </div>
-                            <input type="number" name="userCode" id="userCode" class="form-control" required />
+                            <input type="number" name="userCode" id="userCode" class="form-control num-pin" required/>
                         </div>
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
-                                <label for="userCodeDoubleCheck" class="input-group-text">User QR Pin Wiederholung</label>
+                                <label for="userCodeDoubleCheck" class="input-group-text">User QR Pin
+                                    Wiederholung</label>
                             </div>
-                            <input type="number" name="userCodeDoubleCheck" id="userCodeDoubleCheck" class="form-control" required />
+                            <input type="number" name="userCodeDoubleCheck" id="userCodeDoubleCheck"
+                                   class="form-control num-pin" required/>
                         </div>
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
@@ -86,6 +89,7 @@ else :
 
     </main>
     <?php include("includes/footer.php"); ?>
+    <script src="assets/js/numvalidate.js"></script>
     </body>
     </html>
 <?php

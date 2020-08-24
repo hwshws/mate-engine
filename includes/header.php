@@ -15,9 +15,15 @@
             <input class="form-control mr-sm-2" type="text" name="qr" placeholder="QR scannen" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Kontostand abrufen</button>
         </form>
-        <form action="logout.php">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
-        </form>
+        <?php
+        if ($_SESSION["isLoggedIn"]) {
+            ?>
+            <form action="logout.php">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+            </form>
+            <?php
+        }
+        ?>
     </div>
 </nav>
 <?php error_reporting(E_ALL); ?>
