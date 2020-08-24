@@ -55,7 +55,7 @@ else :
                         </div>
                         <div class="input-group input-group-sm mb-3" style="display: none">
                             <div class="input-group-prepend">
-                                <label for="balance" class="input-group-text">Gutenhaben</label>
+                                <label for="balance" class="input-group-text">Guthaben</label>
                             </div>
                             <input type="number" name="balance" id="balance" class="form-control" disabled/>
                             <div class="input-group-append">

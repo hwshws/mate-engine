@@ -15,22 +15,51 @@
         <h1>Einzahlung
             <small class="text-muted">Show me all your money!</small>
         </h1>
-        <form action="./controller/add.php" method="post">
-            <div class="input-group">
-                <input type="text" class="form-control" min="1" step=".01"
-                       aria-label="Euro amount (with dot and two decimal places)">
-                <div class="input-group-append">
-                    <span class="input-group-text">€</span>
-                    <span class="input-group-text">0.00</span>
-                </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <form action="controller/deposit.php" method="post">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <label for="balance" class="input-group-text">Guthaben</label>
+                        </div>
+                        <input type="number" name="balance" id="balance" class="form-control" required/>
+                        <div class="input-group-append">
+                            <span class="input-group-text">€</span>
+                        </div>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <label for="authSecret" class="input-group-text">Admin QR</label>
+                        </div>
+                        <input name="authSecret" id="authSecret" class="form-control" required/>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <label for="authCode" class="input-group-text">Admin QR Pin</label>
+                        </div>
+                        <input type="number" name="authCode" id="authCode" class="form-control num-pin"
+                               maxlength="4" required/>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <label for="userSecret" class="input-group-text">User QR</label>
+                        </div>
+                        <input name="userSecret" id="userSecret" class="form-control" required/>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <label for="userCode" class="input-group-text">User QR Pin</label>
+                        </div>
+                        <input type="number" name="userCode" id="userCode" class="form-control num-pin" required/>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <input type="submit" value="Guthaben gutschreiben" class="btn btn-dark" style="width: 100%">
+                    </div>
+                </form>
             </div>
-            <input type="number" name="amount" placeholder="Amount" min="1" step=".01"/> <br>
-            <input type="text" name="authSecret" placeholder="authSecret"/> <br>
-            <input type="number" name="authCode" placeholder="authCode"/> <br>
-            <input type="text" name="userSecret" placeholder="userSecret"/> <br>
-            <input type="number" name="userCode" placeholder="userCode" min="0000" max="9999"/> <br>
-            <input type="submit" value="Guthaben gutschreiben"> <!-- IDEA: Popup mit aktuellem Kontostand -->
-        </form>
+            <div class="col-md-4"></div>
+        </div>
     </div>
 
 </main>

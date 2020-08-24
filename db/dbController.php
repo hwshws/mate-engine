@@ -49,6 +49,11 @@ class dbController
         $stmt->execute([$secret]);
     }
 
+    public static function addUserBalance(PDO $pdo, string $secret, float $amount) {
+        $stmt = $pdo->prepare("UPDATE users SET balance = balance + ? WHERE secret = ?");
+        $stmt->execute([$amount, $secret]);
+    }
+
     /**
      * Adds a new product
      * @param PDO $pdo
