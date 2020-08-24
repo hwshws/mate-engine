@@ -1,0 +1,6 @@
+<?php
+const zulipURL = "<Zulip baseurl>";
+const zulipBotEmail = "<Bot email>";
+const zulipBotSecret = "<Bot secret>";
+const zulipChannel = "<Channel>";
+const zulipTopic = "<Topic>";

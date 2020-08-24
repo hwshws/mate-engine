@@ -104,6 +104,7 @@ else :
                 });
                 const res = await resp.json();
                 if (!res.success) {
+                    // TODO: Error handling
                     alert(res.message);
                     return;
                 }
