@@ -8,7 +8,7 @@ else :
     require_once "db/dbconnector.php";
 ?>
     <!doctype html>
-    <html lang="en">
+    <html lang="de">
 
     <head>
         <title>mate-engine - Getränkeverkauf bei JHULM</title>
@@ -32,6 +32,7 @@ else :
                     </tr>
 
                     <?php
+                    // TODO: Product editor
                     foreach (dbController::getProducts($pdo) as $product) {
                     ?>
                         <tr>

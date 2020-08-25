@@ -26,8 +26,6 @@ else :
             <div>
                 <a class="btn btn-primary btn-lg btn-block" href="einzahlung.php" role="button">Einzahlung</a>
                 <a class="btn btn-primary btn-lg btn-block" href="ausgabe.php" role="button">Ausgabe</a>
-                <a class="btn btn-primary btn-lg btn-block" href="kassenstand.php" role="button">Abrufen Kontostand (auch
-                    oben rechts)</a>
                 <a class="btn btn-danger btn-lg btn-block" href="adduser.php" role="button">Benutzer hinzufügen</a>
                 <a class="btn btn-danger btn-lg btn-block" href="konto-leeren.php" role="button">Konto leeren</a>
                 <a class="btn btn-danger btn-lg btn-block" href="products.php" role="button">Produkte</a>

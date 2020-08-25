@@ -8,7 +8,7 @@ else :
     require_once "db/dbconnector.php";
     ?>
     <!doctype html>
-    <html lang="en">
+    <html lang="de">
     <head>
         <title>mate-engine - Getränkeverkauf bei JHULM</title>
         <?php require_once "includes/head.php"; ?>

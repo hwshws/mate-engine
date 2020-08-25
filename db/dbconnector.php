@@ -1,9 +1,9 @@
 <?php
 require_once "credentials.php";
-$dsn = "$protocol:host=$host;dbname=$databaseName;charset=$charset";
+$dsn = PROTOCOL . ":host=" . HOST . ";dbname=" . DBNAME . ";charset=" . CHARSET;
 
 try {
-    $pdo = new PDO($dsn, $username, $password);
+    $pdo = new PDO($dsn, USERNAME, PASSWORD));
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
