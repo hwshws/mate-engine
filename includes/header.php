@@ -11,11 +11,15 @@
                 <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
             </li>
         </ul>
+        <?php
+        if ($_SESSION["isAdmin"]) { 
+        ?>
         <form class="form-inline my-2 my-lg-0" id="quick-balance">
             <input class="form-control mr-sm-2" type="text" name="qr" id="qa-qr" placeholder="QR scannen" aria-label="Search">
             <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Kontostand abrufen">
         </form>
         <?php
+        }
         if ($_SESSION["isLoggedIn"]) {
             ?>
             <form action="logout.php">

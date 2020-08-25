@@ -23,30 +23,28 @@ else :
 
             <div class="starter-template">
                 <h1>Getränkeverkauf <small class="text-muted">Produktinformation</small></h1>
-                <table>
+                <table class='table'>
+                    <tr>
+                        <th>Name</th>
+                        <th>Preis</th>
+                        <th>Restliche volle Kästen</th>
+                        <th>Restliche Flaschen</th>
+                    </tr>
 
-                    <table class='table'>
+                    <?php
+                    foreach (dbController::getProducts($pdo) as $product) {
+                    ?>
                         <tr>
-                            <th>Name</th>
-                            <th>Preis</th>
-                            <th>Restliche volle Kästen</th>
-                            <th>Restliche Flaschen</th>
+                            <td><?php echo $product["name"] ?></td>
+                            <td><?php echo $product["price"] ?></td>
+                            <td><?php echo (int)$product["amount"] ?></td>
+                            <td><?php echo fmod($product["amount"], 1) * $product["bottles_per_crate"] ?></td>
                         </tr>
+                    <?php
+                    }
+                    ?>
 
-                        <?php
-                        foreach (dbController::getProducts($pdo) as $product) {
-                        ?>
-                            <tr>
-                                <td><?php echo $product["name"] ?></td>
-                                <td><?php echo $product["price"] ?></td>
-                                <td><?php echo (int)$product["amount"] ?></td>
-                                <td><?php echo fmod($product["amount"], 1) * $product["bottles_per_crate"] ?></td>
-                            </tr>
-                        <?php
-                        }
-                        ?>
-
-                    </table>
+                </table>
             </div>
 
         </main>
