@@ -1,9 +1,13 @@
 <?php
 session_start();
+require_once "db/dbconnector.php";
+require_once "db/dbController.php";
 
 if ($_SESSION["isLoggedIn"]) :
     if ($_SESSION["isAdmin"]) header("Location: admin.php");
     else header("Location: user.php");
+elseif (!dbController::isSetup($pdo)) :
+    header("Location: setup.php");
 else :
     ?>
     <!doctype html>

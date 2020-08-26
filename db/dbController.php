@@ -44,12 +44,14 @@ class dbController
      * @param PDO $pdo
      * @param string $secret
      */
-    public static function emptyUserAccount(PDO $pdo, string $secret) {
+    public static function emptyUserAccount(PDO $pdo, string $secret)
+    {
         $stmt = $pdo->prepare("UPDATE users SET balance = 0 WHERE secret = ?");
         $stmt->execute([$secret]);
     }
 
-    public static function addUserBalance(PDO $pdo, string $secret, float $amount) {
+    public static function addUserBalance(PDO $pdo, string $secret, float $amount)
+    {
         $stmt = $pdo->prepare("UPDATE users SET balance = balance + ? WHERE secret = ?");
         $stmt->execute([$amount, $secret]);
     }
@@ -255,5 +257,21 @@ class dbController
         $stmt->execute([$secret, md5($code)]);
         $res = $stmt->fetch();
         return !empty($res) && $res["permission"] > 0;
+    }
+
+    public static function isSetup(PDO $pdo)
+    {
+        $stmt = $pdo->query("SELECT * FROM server");
+        $res = $stmt->fetch();
+        return !empty($res);
+    }
+
+    public static function setup(PDO $pdo, float $initBalance, string $adminQR, int $adminPin/*, float $ticketPrice*/)
+    {
+        if (!self::isSetup($pdo)) {
+            dbController::createUser($pdo, $adminQR, $adminPin, 0, 3);
+            $stmt = $pdo->prepare("INSERT INTO server (is_setup, initial_balance) VALUE (?, ?)");
+            $stmt->execute([true, $initBalance]);
+        }
     }
 }
