@@ -2,7 +2,7 @@
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script>
     const quickBalanceForm = document.getElementById("quick-balance");
-    quickBalanceForm.addEventListener('submit', async e => {
+    if (quickBalanceForm) quickBalanceForm.addEventListener('submit', async e => {
         e.preventDefault();
         const secret = document.getElementById("qa-qr").value;
         const resp = await fetch("controller/quickAccess.php", {
