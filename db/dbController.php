@@ -261,7 +261,9 @@ class dbController
 
     public static function isSetup(PDO $pdo)
     {
-        return !empty($pdo->query("SELECT id FROM server"));
+        $stmt = $pdo->query("SELECT * FROM server");
+        $res = $stmt->fetch();
+        return !empty($res);
     }
 
     public static function setup(PDO $pdo, float $initBalance, string $adminQR, int $adminPin/*, float $ticketPrice*/)
