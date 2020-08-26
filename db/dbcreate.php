@@ -40,4 +40,12 @@ $pdo->query("CREATE TABLE IF NOT EXISTS product_amount (
     PRIMARY KEY (id)
 )");
 
+$pdo->query("CREATE TABLE IF NOT EXISTS server (
+    id INT NOT NULL AUTO_INCREMENT,
+    is_setup BOOLEAN NOT NULL DEFAULT FALSE,
+    initial_balance DECIMAL(5, 2) NOT NULL,
+    # application_fee DECIMAL(4, 2) NULL DEFAULT 20.0, # Do we need this?
+    PRIMARY KEY (id)
+)");
+
 echo "Added tables successfully!\n";
