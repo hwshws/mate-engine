@@ -25,7 +25,7 @@ else :
 
         <div class="starter-template">
             <h1>Login</h1>
-            <form method="post" action="controller/login.php">
+            <form method="post" action="controller/login.php" class="default-form">
                 <input type="text" name="secret" placeholder="Secret"><br>
                 <input type="text" name="code" placeholder="Code"><br>
                 <input type="submit" value="submit">

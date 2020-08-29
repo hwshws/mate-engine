@@ -259,13 +259,24 @@ class dbController
         return !empty($res) && $res["permission"] > 0;
     }
 
+    /**
+     * @param PDO $pdo
+     * @return bool
+     */
     public static function isSetup(PDO $pdo)
     {
         $stmt = $pdo->query("SELECT * FROM server");
         $res = $stmt->fetch();
-        return !empty($res);
+        if (empty($res)) return false;
+        return $res["is_setup"] === 1;
     }
 
+    /**
+     * @param PDO $pdo
+     * @param float $initBalance
+     * @param string $adminQR
+     * @param int $adminPin
+     */
     public static function setup(PDO $pdo, float $initBalance, string $adminQR, int $adminPin/*, float $ticketPrice*/)
     {
         if (!self::isSetup($pdo)) {

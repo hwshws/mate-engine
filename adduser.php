@@ -26,7 +26,7 @@ else :
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <form action="controller/add.php" method="post">
+                    <form action="controller/add.php" method="post" class="default-form">
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
                                 <label for="amount" class="input-group-text">Startguthaben</label>

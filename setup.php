@@ -19,13 +19,13 @@ else :
 <main role="main" class="container">
 
     <div class="starter-template">
-        <h1>Einzahlung
-            <small class="text-muted">Show me all your money!</small>
+        <h1>Setup
+            <small class="text-muted">Den Service gibt's <b>noch</b> nicht!</small>
         </h1>
         <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4">
-                <form action="controller/setup.php" method="post">
+                <form action="controller/setup.php" method="post" class="default-form">
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
                             <label for="balance" class="input-group-text">Initialer Kassenstand</label>

@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4">
-                <form action="controller/deposit.php" method="post">
+                <form action="controller/deposit.php" method="post" class="default-form">
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
                             <label for="balance" class="input-group-text">Guthaben</label>
