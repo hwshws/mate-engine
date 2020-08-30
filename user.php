@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once "db/dbconnector.php";
 require_once "db/dbController.php";
 if (!$_SESSION["isLoggedIn"]) :

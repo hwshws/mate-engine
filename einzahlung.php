@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (!$_SESSION["isAdmin"]) :
+    if ($_SESSION["isLoggedIn"]) header("Location: user.php");
+    else header("Location: index.php");
+else :
+require_once "db/dbController.php";
+require_once "db/dbconnector.php";
+?>
 <!doctype html>
 <html lang="de">
 <head>
@@ -66,3 +75,4 @@
 <?php include("includes/footer.php"); ?>
 </body>
 </html>
+<?php endif; ?>

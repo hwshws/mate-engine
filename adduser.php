@@ -1,4 +1,5 @@
 <?php
+session_start();
 if (!$_SESSION["isAdmin"]) :
     if ($_SESSION["isLoggedIn"]) header("Location: user.php");
     else header("Location: index.php");
