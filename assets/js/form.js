@@ -19,7 +19,7 @@ forms.forEach(form => {
         });
 
         const res = await resp.json();
-        // TODO: Default via basic sa and better response type
+        // TODO: Default via basic sa and better response type => reduce boilerplate
         if (res.success) {
             window[form.dataset.success]();
         } else {
@@ -27,6 +27,8 @@ forms.forEach(form => {
         }
     });
 });
+// TODO: Consider session checking
+// TODO: Form clear on success e.g. redirect
 
 function saError(title, text) {
     Swal.fire({
@@ -66,4 +68,12 @@ function buySuccess() {
 
 function buyError(message) {
     saError("Getränk konnte nicht gekauft werden!", message);
+}
+
+function userSuccess() {
+    saSuccess("Neuen Nutzer erfolgreich angelegt!");
+}
+
+function userError(message) {
+    saError("Nutzer konnte nicht angelegt werden!", message);
 }
