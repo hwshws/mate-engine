@@ -25,6 +25,7 @@ $pdo->query("CREATE TABLE IF NOT EXISTS transaction_log (
     uid INT NOT NULL,
     auth_uid INT NOT NULL,
     product_id INT NOT NULL,
+    -- timestamp TIMESTAMP DEFAULT UTC_TIMESTAMP, -- TODO: Consider if this is useful
     FOREIGN KEY (uid) REFERENCES users (id),
     FOREIGN KEY (auth_uid) REFERENCES users (id),
     FOREIGN KEY (product_id) REFERENCES products (id),

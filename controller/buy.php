@@ -1,19 +1,28 @@
 <?php
 require_once "../db/dbController.php";
 require_once "../db/dbconnector.php";
+require_once "../lib.php";
+header('Content-Type: application/json');
 
-print_r($_POST);
+$post = json_decode(file_get_contents('php://input'), true);
 
-if (dbController::validateUser($pdo, $_POST['userSecret'], $_POST['userCode'])) {
-    if (dbController::validateUser($pdo, $_POST['authSecret'], $_POST['authCode'])) {
-        if (dbController::transaction($pdo, $_POST['product'], (int)$_POST['amount'], $_POST['userSecret'], $_POST['authSecret'])) {
-            header("Location: ../home");
+if (!(
+    checkPost($post, "userSecret", "userCode", "authSecret", "authCode", "product", "amount") &&
+    is_numeric($post["product"]) && ((int)$post["product"]) > 0 &&
+    is_numeric($post["amount"]) && ((int)$post["amount"]) > 0
+)) {
+    http_response_code(400);
+    echo json_encode(array("success" => false, "message" => "Wrong parameter(s)"));
+} else {
+    if (dbController::isAdmin($pdo, $post['authSecret'], $post['authCode'])) {
+        if (dbController::validateUser($pdo, $post['userSecret'], $post['userCode'])) {
+            echo json_encode(dbController::transaction($pdo, $post['product'], $post['amount'], $post['userSecret'], $post['authSecret']));
         } else {
-            echo "Something went horribly wrong";
+            http_response_code(401);
+            echo json_encode(array("success" => false, "message" => "User auth failed"));
         }
     } else {
-        echo "Auth not verified";
+        http_response_code(401);
+        echo json_encode(array("success" => false, "message" => "Admin auth failed"));
     }
-} else {
-    echo "User not verified";
 }

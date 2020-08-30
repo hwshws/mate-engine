@@ -19,6 +19,7 @@ forms.forEach(form => {
         });
 
         const res = await resp.json();
+        // TODO: Default via basic sa and better response type
         if (res.success) {
             window[form.dataset.success]();
         } else {
@@ -44,7 +45,7 @@ function saSuccess(title, text) {
 }
 
 function loginSuccess() {
-    window.location.replace("admin.php");
+    window.location.reload();
 }
 
 function loginError(message) {
@@ -57,4 +58,12 @@ function depositSuccess() {
 
 function depositError(message) {
     saError("Guthaben konnte nicht gutgeschrieben werden!", message);
+}
+
+function buySuccess() {
+    saSuccess("Getränk(e) gekauft!");
+}
+
+function buyError(message) {
+    saError("Getränk konnte nicht gekauft werden!", message);
 }

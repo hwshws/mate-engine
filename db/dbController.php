@@ -80,7 +80,7 @@ class dbController
      * @param int $product_amount
      * @param string $userSecret
      * @param string $authSecret
-     * @return bool
+     * @return array
      */
     public static function transaction(PDO $pdo, int $pid, int $product_amount, string $userSecret, string $authSecret)
     {
@@ -88,28 +88,25 @@ class dbController
         $user = dbController::getUserBySecret($pdo, $userSecret);
         $product = dbController::getProductById($pdo, $pid);
         if (isset($product)) {
-            if (isset($auth) && isset($user)) {
-                if ($auth["permission"] > 0) {
+            if ($product["amount"] > 0) {
+                if ($auth["permission"] >= $product["permission"]) {
                     if ($user["balance"] > $product["price"] * $product_amount) {
                         dbController::changeUserBalance($pdo, $user["id"], $product["price"] * $product_amount);
                         dbController::updateProduct($pdo, $pid, $product_amount);
-                        for ($i = 0; $i < $product_amount; $i++) dbController::updateLog($pdo, $user["id"], $auth["id"], $pid);
-                        return true;
+                        for ($i = 0; $i < $product_amount; $i++) dbController::updateLog($pdo, $user["id"], $auth["id"], $pid); // TODO: Better logging
+                        return array("success" => true);
                     }
-                    echo "Not enough money";
-                    return false;
-                } else {
-                    echo "Not authorized!";
-                    return false;
+                    http_response_code(402);
+                    return array("success" => false, "message" => "Not enough money");
                 }
+                http_response_code(401);
+                return array("success" => false, "message" => "Admin permission");
             }
-            echo "User error";
-            return false;
+            http_response_code(418); // TODO: Another status code
+            return array("success" => false, "message" => "Not enough products remaining");
         }
-        echo "Product not found";
-        return false;
-
-
+        http_response_code(400);
+        return array("success" => false, "message" => "Product does not exist");
     }
 
     /**
