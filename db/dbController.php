@@ -260,6 +260,7 @@ class dbController
     }
 
     /**
+     * TODO: Split setup and is_setup
      * @param PDO $pdo
      * @return bool
      */
@@ -279,10 +280,16 @@ class dbController
      */
     public static function setup(PDO $pdo, float $initBalance, string $adminQR, int $adminPin/*, float $ticketPrice*/)
     {
-        if (!self::isSetup($pdo)) {
+        $stmt = $pdo->query("SELECT id, is_setup FROM server");
+        $res = $stmt->fetch();
+        if (empty($res)) return;
+        if ($res["is_setup"] === 1) {
             dbController::createUser($pdo, $adminQR, $adminPin, 0, 3);
-            $stmt = $pdo->prepare("INSERT INTO server (is_setup, initial_balance) VALUE (?, ?)");
-            $stmt->execute([true, $initBalance]);
+            $stmt = $pdo->prepare("INSERT INTO server (is_setup, initial_balance) VALUE (TRUE, ?)");
+            $stmt->execute([$initBalance]);
+        } else if ($res["is_setup"] === 0) {
+            $stmt = $pdo->prepare("UPDATE server SET is_setup = TRUE AND initial_balance = ? WHERE id = ?");
+            $stmt->execute([$initBalance, $res["id"]]);
         }
     }
 }

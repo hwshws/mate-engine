@@ -9,9 +9,11 @@ forms.forEach(form => {
 
         // TODO: Input field validators and errors
         // TODO: Test
-        inputs.forEach(input => body[input.name] = input.value);
+        inputs.forEach(input => {
+            if (input.type !== "submit") body[input.name] = input.value
+        });
         selects.forEach(select => body[select.name] = select.options[select.selectedIndex].value);
-
+        console.log(body);
         const resp = await fetch(form.action, {
             method: form.method.toUpperCase(),
             headers: {
