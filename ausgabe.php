@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (!$_SESSION["isAdmin"]) :
     if ($_SESSION["isLoggedIn"]) header("Location: user.php");
     else header("Location: index.php");
@@ -40,6 +39,20 @@ else :
                 <input type="number" name="userCode" placeholder="userCode" min="0000" max="9999"/> <br>
                 <input type="submit" value="Kaufen">
             </form>
+
+            <div class="btn-group">
+                <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Large button
+                </button>
+                <div class="dropdown-menu">
+                    <?php
+                    foreach (dbController::getProducts($pdo) as $product) {
+                        if ($product["amount"] > 0) {
+                            echo '<option value="' . $product["id"] . '">' . $product["name"] . ' : ' . number_format((float)$product["price"], 2, ',', ' ') . ' €' . '</option>';
+                        }
+                    }
+                    ?>
+                </div>
         </div>
 
     </main>
