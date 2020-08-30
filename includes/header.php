@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<?php if (session_status() !== PHP_SESSION_ACTIVE) session_start(); ?>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="index.php">mate-engine</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
@@ -13,7 +13,7 @@
             </li>
         </ul>
         <?php
-        if ($_SESSION["isAdmin"]) { 
+        if ($_SESSION["isAdmin"]) {
         ?>
         <form class="form-inline my-2 my-lg-0" id="quick-balance">
             <input class="form-control mr-sm-2" type="text" name="qr" id="qa-qr" placeholder="QR scannen" aria-label="Search">

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require "../db/dbController.php";
 require "../db/dbconnector.php";
 
