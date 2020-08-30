@@ -24,28 +24,23 @@ else :
 
         <div class="starter-template">
             <div class="d-flex justify-content-center center-block">
-
-
-            <form method="post" action="controller/login.php">
-                <h1>Login</h1> </br>
-                <div class="input-group input-group-sm mb-3">
-                    <div class="input-group-prepend">
-                        <label for="secret" class="input-group-text">Admin-QR</label>
+                <form method="post" action="controller/login.php" data-success="loginSuccess" data-error="loginError" class="default-form">
+                    <h1>Login</h1> <br>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <label for="secret" class="input-group-text">QR-Code</label>
+                        </div>
+                        <input type="text" class="form-control" name="secret"
+                               id="secret" required/>
                     </div>
-                    <input type="text"  class="form-control" name="secret"
-                           id="secret" required/>
-                </div>
-                <div class="input-group input-group-sm mb-3">
-                    <div class="input-group-prepend">
-                        <label for="code" class="input-group-text">Passwort</label>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <label for="code" class="input-group-text">Passwort</label>
+                        </div>
+                        <input name="code" type="password" id="code" class="form-control" required/>
                     </div>
-                    <input name="code" type="password" id="code" class="form-control" required/>
-                </div>
-
-               <!-- <input type="text" name="secret" placeholder="Secret"><br>
-                <input type="text" name="code" placeholder="Code"><br> -->
-                <input type="submit" value="submit">
-            </form>
+                    <input type="submit" value="submit">
+                </form>
             </div>
         </div>
     </main>

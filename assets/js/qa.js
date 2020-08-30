@@ -1,3 +1,4 @@
+// TODO: Button
 const quickBalanceForm = document.getElementById("quick-balance");
 if (quickBalanceForm) quickBalanceForm.addEventListener('submit', async e => {
     e.preventDefault();

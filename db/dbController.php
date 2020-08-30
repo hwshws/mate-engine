@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Better pdo
+
 class dbController
 {
     /**

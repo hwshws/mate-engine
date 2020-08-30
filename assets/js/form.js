@@ -8,12 +8,10 @@ forms.forEach(form => {
         const selects = form.querySelectorAll("select");
 
         // TODO: Input field validators and errors
-        // TODO: Test
         inputs.forEach(input => {
             if (input.type !== "submit") body[input.name] = input.value
         });
         selects.forEach(select => body[select.name] = select.options[select.selectedIndex].value);
-        console.log(body);
         const resp = await fetch(form.action, {
             method: form.method.toUpperCase(),
             headers: {
@@ -22,12 +20,19 @@ forms.forEach(form => {
             body: JSON.stringify(body),
         });
 
-        // TODO: Unified response type
         const res = await resp.json();
         if (res.success) {
-            // TODO: Handle success
+            window[form.dataset.success]();
         } else {
-            // TODO: Handle error
+            window[form.dataset.error](res.message);
         }
     });
 });
+
+function loginSuccess() {
+    window.location.assign("admin.php");
+}
+
+function loginError(message) {
+    Swal.fire("Login error", message, "error");
+}
