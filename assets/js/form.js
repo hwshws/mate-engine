@@ -14,9 +14,7 @@ forms.forEach(form => {
         selects.forEach(select => body[select.name] = select.options[select.selectedIndex].value);
         const resp = await fetch(form.action, {
             method: form.method.toUpperCase(),
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify(body),
         });
 
@@ -29,10 +27,34 @@ forms.forEach(form => {
     });
 });
 
+function saError(title, text) {
+    Swal.fire({
+        icon: "error",
+        title, text,
+        showCloseButton: true,
+    });
+}
+
+function saSuccess(title, text) {
+    Swal.fire({
+        icon: "success",
+        title, text,
+        showCloseButton: true,
+    });
+}
+
 function loginSuccess() {
-    window.location.assign("admin.php");
+    window.location.replace("admin.php");
 }
 
 function loginError(message) {
-    Swal.fire("Login error", message, "error");
+    saError("Login Fehler!", message);
+}
+
+function depositSuccess() {
+    saSuccess("Guthaben gutgeschrieben!")
+}
+
+function depositError(message) {
+    saError("Guthaben konnte nicht gutgeschrieben werden!", message);
 }

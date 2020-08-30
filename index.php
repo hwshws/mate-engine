@@ -39,7 +39,9 @@ else :
                         </div>
                         <input name="code" type="password" id="code" class="form-control" required/>
                     </div>
-                    <input type="submit" value="submit">
+                    <div class="input-group input-group-sm mb-3">
+                        <input type="submit" value="Login" class="btn btn-dark" style="width: 100%">
+                    </div>
                 </form>
             </div>
         </div>

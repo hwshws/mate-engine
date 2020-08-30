@@ -2,12 +2,13 @@
 session_start();
 require "../db/dbController.php";
 require "../db/dbconnector.php";
+require_once "../lib.php";
 header('Content-Type: application/json');
 
 $post = json_decode(file_get_contents('php://input'), true);
-if (!(array_key_exists("secret", $post) && array_key_exists("code", $post))) {
+if (!(checkPost($post, "secret", "code") && is_numeric($post["code"]))) {
     http_response_code(400);
-    echo json_encode(array("success" => false, "message" => "Wrong parameter"));
+    echo json_encode(array("success" => false, "message" => "Wrong parameter(s)"));
 } else {
     $res = dbController::login($pdo, $post["secret"], $post["code"]);
 
