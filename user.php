@@ -1,7 +1,7 @@
 <?php
+session_start();
 require_once "db/dbconnector.php";
 require_once "db/dbController.php";
-session_start();
 if (!$_SESSION["isLoggedIn"]) :
     header("Location: index.php");
 else :

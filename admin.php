@@ -28,6 +28,17 @@ else :
                 <a class="btn btn-primary btn-lg btn-block" href="ausgabe.php" role="button">Ausgabe</a>
                 <a class="btn btn-danger btn-lg btn-block" href="adduser.php" role="button">Benutzer hinzufügen</a>
                 <a class="btn btn-danger btn-lg btn-block" href="konto-leeren.php" role="button">Konto leeren</a>
+                <a class="btn btn-danger btn-lg btn-block disabled" href="#" role="button">Leerstandmeldung</a>
+                <button id="btn" onclick="test()" type="button">Click me</button>
+                <script>
+                    function test() {
+                        Swal.fire(
+                            'Good job!',
+                            'You clicked the button!',
+                            'success'
+                        )
+                    }
+                </script>
                 <a class="btn btn-danger btn-lg btn-block" href="products.php" role="button">Produkte</a>
             </div>
         </div>
