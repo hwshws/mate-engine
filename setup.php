@@ -26,7 +26,7 @@ else :
         <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4">
-                <form action="controller/setup.php" method="post" class="default-form">
+                <form action="controller/setup.php" method="post" class="default-form" data-success="setupSuccess">
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
                             <label for="balance" class="input-group-text">Initialer Kassenstand</label>

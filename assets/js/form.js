@@ -52,18 +52,10 @@ function loginSuccess(data) {
     window.location.reload();
 }
 
-function buySuccess() {
-    saSuccess("Getränk(e) gekauft!");
-}
-
-function buyError(message) {
-    saError("Getränk konnte nicht gekauft werden!", message);
-}
-
-function userSuccess() {
-    saSuccess("Neuen Nutzer erfolgreich angelegt!");
-}
-
-function userError(message) {
-    saError("Nutzer konnte nicht angelegt werden!", message);
+function setupSuccess(data) {
+    Swal.fire({
+        icon: "success",
+        title: data.title,
+        text: data.text,
+    }).then((result) => window.location.replace("index.php"));
 }

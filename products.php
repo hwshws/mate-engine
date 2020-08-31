@@ -45,7 +45,7 @@ else :
                                 <?php echo (int)$amt ?>
                             </span>
                         </td>
-                        <td><?php echo fmod($amt, 1) * $bpc ?></td>
+                        <td><?php echo (int)(fmod($amt, 1) * $bpc) ?></td>
                     </tr>
                     <?php
                 }
