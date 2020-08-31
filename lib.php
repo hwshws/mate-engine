@@ -37,3 +37,12 @@ function checkPost($post, ...$params)
     }
     return true;
 }
+
+function badRequest()
+{
+    http_response_code(400);
+    return array(
+        "title" => "Request Fehler!",
+        "text" => "Falsche Parameter/Parametertypen"
+    );
+}

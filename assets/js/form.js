@@ -21,22 +21,16 @@ forms.forEach(form => {
         const res = await resp.json();
         // TODO: Default via basic sa and better response type => reduce boilerplate
         if (res.success) {
-            window[form.dataset.success]();
+            if (form.dataset.success) window[form.dataset.success](res.data);
+            else saSuccess(res.data.title, res.data.text);
         } else {
-            window[form.dataset.error](res.message);
+            if (form.dataset.error) window[form.dataset.error](res.data);
+            else saError(res.data.title, res.data.text);
         }
     });
 });
 // TODO: Consider session checking
 // TODO: Form clear on success e.g. redirect
-
-function saError(title, text) {
-    Swal.fire({
-        icon: "error",
-        title, text,
-        showCloseButton: true,
-    });
-}
 
 function saSuccess(title, text) {
     Swal.fire({
@@ -46,20 +40,16 @@ function saSuccess(title, text) {
     });
 }
 
-function loginSuccess() {
+function saError(title, text) {
+    Swal.fire({
+        icon: "error",
+        title, text,
+        showCloseButton: true,
+    });
+}
+
+function loginSuccess(data) {
     window.location.reload();
-}
-
-function loginError(message) {
-    saError("Login Fehler!", message);
-}
-
-function depositSuccess() {
-    saSuccess("Guthaben gutgeschrieben!")
-}
-
-function depositError(message) {
-    saError("Guthaben konnte nicht gutgeschrieben werden!", message);
 }
 
 function buySuccess() {

@@ -6,9 +6,10 @@ require_once "../lib.php";
 header('Content-Type: application/json');
 
 $post = json_decode(file_get_contents('php://input'), true);
+$resp = array("success" => false, "data" => null);
+
 if (!(checkPost($post, "secret", "code") && is_numeric($post["code"]))) {
-    http_response_code(400);
-    echo json_encode(array("success" => false, "message" => "Wrong parameter(s)"));
+    $resp["data"] = badRequest();
 } else {
     $res = dbController::login($pdo, $post["secret"], $post["code"]);
 
@@ -20,9 +21,14 @@ if (!(checkPost($post, "secret", "code") && is_numeric($post["code"]))) {
         } else {
             $_SESSION["isAdmin"] = false;
         }
-        echo json_encode(array("success" => true));
+        $resp["success"] = true;
     } else {
         http_response_code(401);
-        echo json_encode(array("success" => false, "message" => "Bad credentials"));
+        $resp["data"] = array(
+            "title" => "Login Fehler!",
+            "text" => "Falsche Zugangsdaten!"
+        );
     }
 }
+
+echo json_encode($resp);

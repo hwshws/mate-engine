@@ -22,8 +22,7 @@ else :
 
         <div class="starter-template">
             <h1>Getränkeverkauf <small class="text-muted">Ausgabe</small></h1>
-            <form action="controller/buy.php" method="post" class="default-form" data-success="buySuccess"
-                  data-error="buyError">
+            <form action="controller/buy.php" method="post" class="default-form">
                 <!-- TODO: Style -->
                 <select name="product" id="product-select">
                     <option value="0">Bitte auswählen!</option>

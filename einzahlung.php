@@ -27,8 +27,7 @@ else :
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <form action="controller/deposit.php" method="post" class="default-form"
-                          data-success="depositSuccess" data-error="depositError">
+                    <form action="controller/deposit.php" method="post" class="default-form">
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
                                 <label for="balance" class="input-group-text">Guthaben</label>
@@ -62,7 +61,8 @@ else :
                             <div class="input-group-prepend">
                                 <label for="userCode" class="input-group-text">User QR Pin</label>
                             </div>
-                            <input type="number" name="userCode" id="userCode" class="form-control num-pin" required/>
+                            <input type="number" name="userCode" id="userCode" class="form-control num-pin"
+                                   maxlength="4" required/>
                         </div>
                         <div class="input-group input-group-sm mb-3">
                             <input type="submit" value="Guthaben gutschreiben" class="btn btn-dark" style="width: 100%">

@@ -87,6 +87,7 @@ class dbController
         $auth = dbController::getUserBySecret($pdo, $authSecret);
         $user = dbController::getUserBySecret($pdo, $userSecret);
         $product = dbController::getProductById($pdo, $pid);
+        $resp = array("success" => false, "data" => array("title" => "Getränk konnte nicht gekauft werden!"));
         if (isset($product)) {
             if ($product["amount"] > 0) {
                 if ($auth["permission"] >= $product["permission"]) {
@@ -94,19 +95,25 @@ class dbController
                         dbController::changeUserBalance($pdo, $user["id"], $product["price"] * $product_amount);
                         dbController::updateProduct($pdo, $pid, $product_amount);
                         for ($i = 0; $i < $product_amount; $i++) dbController::updateLog($pdo, $user["id"], $auth["id"], $pid); // TODO: Better logging
-                        return array("success" => true);
+                        $resp["success"] = true;
+                        $resp["data"]["title"] = "Getränk(e) gekauft!";
+                    } else {
+                        http_response_code(402);
+                        $resp["data"]["text"] = "Nicht genug Geld!";
                     }
-                    http_response_code(402);
-                    return array("success" => false, "message" => "Not enough money");
+                } else {
+                    http_response_code(401);
+                    $resp["data"]["text"] = "Fehlende Adminberechtigungen!";
                 }
-                http_response_code(401);
-                return array("success" => false, "message" => "Admin permission");
+            } else {
+                http_response_code(418); // TODO: Another status code
+                $resp["data"]["text"] = "Nicht genug Getränke vorhanden!";
             }
-            http_response_code(418); // TODO: Another status code
-            return array("success" => false, "message" => "Not enough products remaining");
+        } else {
+            http_response_code(400);
+            $resp["data"]["text"] = "Produkt nicht vorhanden!";
         }
-        http_response_code(400);
-        return array("success" => false, "message" => "Product does not exist");
+        return $resp;
     }
 
     /**

@@ -24,7 +24,7 @@ else :
 
         <div class="starter-template">
             <div class="d-flex justify-content-center center-block">
-                <form method="post" action="controller/login.php" data-success="loginSuccess" data-error="loginError" class="default-form">
+                <form method="post" action="controller/login.php" data-success="loginSuccess" class="default-form">
                     <h1>Login</h1> <br>
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">

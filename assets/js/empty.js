@@ -43,7 +43,7 @@ form.addEventListener("submit", async e => {
             userSecret.disabled = true;
             userCode.disabled = true;
 
-            form.action = "controller/emptyaccount.php";
+            form.action = "controller/emptyAccount.php";
             document.querySelector("input[type=submit]").value = "Konto leeren";
         } else {
             window.location.replace("index.php");
