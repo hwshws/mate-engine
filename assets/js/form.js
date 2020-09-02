@@ -22,7 +22,7 @@ forms.forEach(form => {
         if (res.success) {
             if (form.dataset.success) window[form.dataset.success](res.data);
             else saSuccess(res.data.title, res.data.text);
-            // TODO: Form clear on success e.g. redirect
+            form.reset();
         } else {
             if (form.dataset.error) window[form.dataset.error](res.data);
             else saError(res.data.title, res.data.text);

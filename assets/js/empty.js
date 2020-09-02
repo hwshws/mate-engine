@@ -54,6 +54,7 @@ form.addEventListener("submit", async e => {
             document.querySelector("input[type=submit]").value = "Konto leeren";
         } else {
             saSuccess("Konto geleert!");
+            form.clear();
         }
     } else if (result.dismiss === Swal.DismissReason.cancel) {
         saError("Abgebrochen!", "Konto wurde nicht geleert!");
