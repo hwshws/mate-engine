@@ -15,27 +15,14 @@ if (quickAccessButton) quickAccessButton.addEventListener('click', async (e) => 
             });
             return await resp.json();
         },
-        allowOutsideClick: () => !Swal.isLoading(),
     });
     if (result.value) {
         if (result.value.success) {
-            Swal.fire({
-                icon: "success",
-                title: "Anfrage erfolgreich!",
-                text: `Der Kontostand beträgt: ${result.value.balance}`,
-            });
+            saSuccess("Guthaben abgefragt!", `Der Kontostand beträgt: ${result.value.data.balance}`)
         } else {
-            Swal.fire({
-                icon: "error",
-                title: "Ein Fehler ist aufgetreten!",
-                text: result.value.message,
-            });
+            saError("Guthaben konnte nicht abgefragt werden!", result.value.data.message);
         }
-    } else {
-        Swal.fire({
-            icon: "error",
-            title: "Ein Fehler ist aufgetreten!",
-            text: result.value.message,
-        });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+        saError("Anfrage abgebrochen!");
     }
 });

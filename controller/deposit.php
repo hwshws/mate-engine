@@ -16,9 +16,14 @@ if (!(
 } else {
     if (dbController::isAdmin($pdo, $post["authSecret"], $post["authCode"])) {
         if (dbController::validateUser($pdo, $post["userSecret"], $post["userCode"])) {
-            dbController::addUserBalance($pdo, $post["userSecret"], $post["balance"]);
-            $resp["success"] = true;
-            $resp["data"]["title"] = "Guthaben gutgeschrieben!";
+            $balance = dbController::getUserBalanceBySecret($pdo, $post["userSecret"]);
+            if ($balance + $post["balance"] < 100) {
+                dbController::addUserBalance($pdo, $post["userSecret"], $post["balance"]);
+                $resp["success"] = true;
+                $resp["data"]["title"] = "Guthaben gutgeschrieben!";
+            } else {
+                $resp["data"]["text"] = "Zu viel Geld auf dem Konto: ". $balance . "€ (+ " . $post["balance"] . "€)";
+            }
         } else {
             http_response_code(401);
             $resp["data"]["text"] = "Benutzerauthentifizierung fehlgeschlagen!";

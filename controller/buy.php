@@ -14,6 +14,7 @@ if (!(
 )) {
     $resp["data"] = badRequest();
 } else {
+    $resp["data"]["title"] = "Getränk" . ((int)$post["amount"] > 1 ? "e" : "") . " konnte" . ((int)$post["amount"] > 1 ? "n" : "") . " nicht gekauft werden!";  // Extra für Heinz!!!
     if (dbController::isAdmin($pdo, $post['authSecret'], $post['authCode'])) {
         if (dbController::validateUser($pdo, $post['userSecret'], $post['userCode'])) {
             $resp = dbController::transaction($pdo, $post['product'], $post['amount'], $post['userSecret'], $post['authSecret']);
