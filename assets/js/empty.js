@@ -17,21 +17,28 @@ form.addEventListener("submit", async e => {
         balance: balance.value,
     };
 
-    let cnfirm = true;
-    if (form.action.endsWith("account.php")) cnfirm = confirm(`Guthaben ${balance.value} ausgezahlt?`);
-    if (cnfirm) {
+    let req = true;
+    let result = undefined;
+    if (!form.action.endsWith("balance.php")) req = false;
+    if (!req) result = await Swal.fire({
+        icon: "question",
+        title: "Guthaben auszahlen",
+        text: `Guthaben von ${balance.value}€ auszahlen`,
+        confirmButtonText: "Guthaben ausgezahlt",
+        confirmButtonColor: "28a745",
+        showCancelButton: true,
+        cancelButtonText: "Abbrechen",
+    });
+
+    if (req || result.value) {
         const resp = await fetch(form.action, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data),
         });
         const res = await resp.json();
         if (!res.success) {
-            // TODO: Error handling
-            alert(res.message);
-            return;
+            return saError(res.data.title, res.data.text);
         }
 
         if (form.action.endsWith("balance.php")) {
@@ -46,7 +53,9 @@ form.addEventListener("submit", async e => {
             form.action = "controller/emptyAccount.php";
             document.querySelector("input[type=submit]").value = "Konto leeren";
         } else {
-            window.location.replace("index.php");
+            saSuccess("Konto geleert!");
         }
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+        saError("Abgebrochen!", "Konto wurde nicht geleert!");
     }
 });
