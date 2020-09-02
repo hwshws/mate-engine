@@ -44,7 +44,7 @@ form.addEventListener("submit", async e => {
 
         if (form.action.endsWith("balance.php")) {
             balance.parentElement.style.display = "flex";
-            balance.value = res.balance;
+            balance.value = res.data.balance;
 
             authSecret.disabled = true;
             authCode.disabled = true;
