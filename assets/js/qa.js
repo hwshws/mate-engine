@@ -20,7 +20,7 @@ if (quickAccessButton) quickAccessButton.addEventListener('click', async (e) => 
         if (result.value.success) {
             saSuccess("Guthaben abgefragt!", `Der Kontostand beträgt: ${result.value.data.balance}`)
         } else {
-            saError("Guthaben konnte nicht abgefragt werden!", result.value.data.message);
+            saError("Guthaben konnte nicht abgefragt werden!", result.value.data.text);
         }
     } else if (result.dismiss === Swal.DismissReason.cancel) {
         saError("Anfrage abgebrochen!");
