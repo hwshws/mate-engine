@@ -17,6 +17,7 @@ form.addEventListener("submit", async e => {
         balance: balance.value,
     };
 
+    // There probably is a better solution - at least it works
     let req = true;
     let result = undefined;
     if (!form.action.endsWith("balance.php")) req = false;
@@ -54,7 +55,13 @@ form.addEventListener("submit", async e => {
             document.querySelector("input[type=submit]").value = "Konto leeren";
         } else {
             saSuccess("Konto geleert!");
-            form.clear();
+            form.reset();
+            balance.parentElement.style.display = "none";
+            balance.value = 0;
+            authSecret.disabled = false;
+            authCode.disabled = false;
+            userSecret.disabled = false;
+            userCode.disabled = false;
         }
     } else if (result.dismiss === Swal.DismissReason.cancel) {
         saError("Abgebrochen!", "Konto wurde nicht geleert!");
