@@ -19,18 +19,16 @@ forms.forEach(form => {
         });
 
         const res = await resp.json();
-        // TODO: Default via basic sa and better response type => reduce boilerplate
         if (res.success) {
             if (form.dataset.success) window[form.dataset.success](res.data);
             else saSuccess(res.data.title, res.data.text);
+            // TODO: Form clear on success e.g. redirect
         } else {
             if (form.dataset.error) window[form.dataset.error](res.data);
             else saError(res.data.title, res.data.text);
         }
     });
 });
-// TODO: Consider session checking
-// TODO: Form clear on success e.g. redirect
 
 function saSuccess(title, text) {
     Swal.fire({

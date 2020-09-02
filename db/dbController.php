@@ -96,7 +96,7 @@ class dbController
                         dbController::updateProduct($pdo, $pid, $product_amount);
                         for ($i = 0; $i < $product_amount; $i++) dbController::updateLog($pdo, $user["id"], $auth["id"], $pid); // TODO: Better logging
                         $resp["success"] = true;
-                        $resp["data"]["title"] = "Getränk" . ($product_amount > 1 ? "e" : "") ." gekauft!";
+                        $resp["data"]["title"] = "Getränk" . ($product_amount > 1 ? "e" : "") . " gekauft!";
                     } else {
                         http_response_code(402);
                         $resp["data"]["text"] = "Nicht genug Geld!";
