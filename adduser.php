@@ -26,13 +26,13 @@ else :
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <form action="controller/add.php" method="post">
+                    <form action="controller/add.php" method="post" class="default-form">
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
-                                <label for="amount" class="input-group-text">Startguthaben</label>
+                                <label for="balance" class="input-group-text">Startguthaben</label>
                             </div>
-                            <input type="number" min="0" max="99.99" step="0.01" class="form-control" name="amount"
-                                   id="amount" required/>
+                            <input type="number" min="0" step="0.01" class="form-control" name="balance"
+                                   id="balance" required/>
                         </div>
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">

@@ -13,7 +13,8 @@ define("curlOPTS", array(
     CURLOPT_USERPWD => zulipBotEmail . ':' . zulipBotSecret
 ));
 
-function sendZulipMessage(string $message) {
+function sendZulipMessage(string $message)
+{
     $curl = curl_init();
     curl_setopt_array($curl, curlOPTS);
     curl_setopt($curl, CURLOPT_POSTFIELDS, array(
@@ -26,4 +27,22 @@ function sendZulipMessage(string $message) {
     if (curl_errno($curl) > 0) die(curl_error($curl));
     curl_close($curl);
     return $result;
+}
+
+function checkPost($post, ...$params)
+{
+    foreach ($params as $param) {
+        if (!array_key_exists($param, $post))
+            return $param;
+    }
+    return true;
+}
+
+function badRequest()
+{
+    http_response_code(400);
+    return array(
+        "title" => "Request Fehler!",
+        "text" => "Falsche Parameter/Parametertypen"
+    );
 }

@@ -6,7 +6,7 @@ if (!$_SESSION["isAdmin"]) :
 else :
     require_once "db/dbController.php";
     require_once "db/dbconnector.php";
-?>
+    ?>
     <!doctype html>
     <html lang="de">
 
@@ -17,39 +17,45 @@ else :
 
     <body>
 
-        <?php include("includes/header.php"); ?>
+    <?php include("includes/header.php"); ?>
 
-        <main role="main" class="container">
+    <main role="main" class="container">
 
-            <div class="starter-template">
-                <h1>Getränkeverkauf <small class="text-muted">Produktinformation</small></h1>
-                <table class='table'>
+        <div class="starter-template">
+            <h1>Getränkeverkauf <small class="text-muted">Produktinformation</small></h1>
+            <table class='table'>
+                <tr>
+                    <th>Name</th>
+                    <th>Preis</th>
+                    <th>Restliche volle Kästen</th>
+                    <th>Restliche Flaschen</th>
+                </tr>
+
+                <?php
+                // TODO: Product editor
+                foreach (dbController::getProducts($pdo) as $product) {
+                    $amt = $product["amount"];
+                    $bpc = $product["bottles_per_crate"];
+                    ?>
                     <tr>
-                        <th>Name</th>
-                        <th>Preis</th>
-                        <th>Restliche volle Kästen</th>
-                        <th>Restliche Flaschen</th>
+                        <td><?php echo $product["name"] ?></td>
+                        <td><?php echo $product["price"] ?></td>
+                        <td>
+                            <span style="cursor: help" title="<?php echo "à " . $bpc . " Flaschen" ?>">
+                                <?php echo (int)$amt ?>
+                            </span>
+                        </td>
+                        <td><?php echo (int)(fmod($amt, 1) * $bpc) ?></td>
                     </tr>
-
                     <?php
-                    // TODO: Product editor
-                    foreach (dbController::getProducts($pdo) as $product) {
-                    ?>
-                        <tr>
-                            <td><?php echo $product["name"] ?></td>
-                            <td><?php echo $product["price"] ?></td>
-                            <td><?php echo (int)$product["amount"] ?></td>
-                            <td><?php echo fmod($product["amount"], 1) * $product["bottles_per_crate"] ?></td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
+                }
+                ?>
 
-                </table>
-            </div>
+            </table>
+        </div>
 
-        </main>
-        <?php include("includes/footer.php"); ?>
+    </main>
+    <?php include("includes/footer.php"); ?>
     </body>
 
     </html>

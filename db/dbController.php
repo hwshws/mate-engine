@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Better pdo
+
 class dbController
 {
     /**
@@ -78,36 +80,40 @@ class dbController
      * @param int $product_amount
      * @param string $userSecret
      * @param string $authSecret
-     * @return bool
+     * @return array
      */
     public static function transaction(PDO $pdo, int $pid, int $product_amount, string $userSecret, string $authSecret)
     {
         $auth = dbController::getUserBySecret($pdo, $authSecret);
         $user = dbController::getUserBySecret($pdo, $userSecret);
         $product = dbController::getProductById($pdo, $pid);
+        $resp = array("success" => false, "data" => array("title" => "Getränk" . ((int)$product_amount > 1 ? "e" : "") . " konnte" . ((int)$product_amount > 1 ? "n" : "") . " nicht gekauft werden!"));  // Extra für Heinz!!
         if (isset($product)) {
-            if (isset($auth) && isset($user)) {
-                if ($auth["permission"] > 0) {
+            if ($product["amount"] * $product["bottles_per_crate"] >= $product_amount) {
+                if ($auth["permission"] >= $product["permission"]) {
                     if ($user["balance"] > $product["price"] * $product_amount) {
-                        dbController::changeUserBalance($pdo, $user["id"], $product["price"] * $product_amount);
+                        dbController::changeUserBalance($pdo, $user["id"], -$product["price"] * $product_amount);
                         dbController::updateProduct($pdo, $pid, $product_amount);
-                        for ($i = 0; $i < $product_amount; $i++) dbController::updateLog($pdo, $user["id"], $auth["id"], $pid);
-                        return true;
+                        for ($i = 0; $i < $product_amount; $i++) dbController::updateLog($pdo, $user["id"], $auth["id"], $pid); // TODO: Better logging
+                        $resp["success"] = true;
+                        $resp["data"]["title"] = "Getränk" . ($product_amount > 1 ? "e" : "") . " gekauft!";
+                    } else {
+                        http_response_code(402);
+                        $resp["data"]["text"] = "Nicht genug Geld!";
                     }
-                    echo "Not enough money";
-                    return false;
                 } else {
-                    echo "Not authorized!";
-                    return false;
+                    http_response_code(401);
+                    $resp["data"]["text"] = "Fehlende Adminberechtigungen!";
                 }
+            } else {
+                http_response_code(400);
+                $resp["data"]["text"] = "Nicht genug Getränke vorhanden!";
             }
-            echo "User error";
-            return false;
+        } else {
+            http_response_code(400);
+            $resp["data"]["text"] = "Produkt nicht vorhanden!";
         }
-        echo "Product not found";
-        return false;
-
-
+        return $resp;
     }
 
     /**
@@ -181,7 +187,7 @@ class dbController
      */
     private static function getProductById(PDO $pdo, int $pid)
     {
-        $stmt = $pdo->prepare("SELECT id, price, name, amount, permission FROM products WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT id, price, name, amount, permission, bottles_per_crate FROM products WHERE id = ?");
         $stmt->execute([$pid]);
         return $stmt->fetch();
     }
@@ -259,19 +265,37 @@ class dbController
         return !empty($res) && $res["permission"] > 0;
     }
 
+    /**
+     * TODO: Split setup and is_setup
+     * @param PDO $pdo
+     * @return bool
+     */
     public static function isSetup(PDO $pdo)
     {
         $stmt = $pdo->query("SELECT * FROM server");
         $res = $stmt->fetch();
-        return !empty($res);
+        if (empty($res)) return false;
+        return $res["is_setup"] === 1;
     }
 
+    /**
+     * @param PDO $pdo
+     * @param float $initBalance
+     * @param string $adminQR
+     * @param int $adminPin
+     */
     public static function setup(PDO $pdo, float $initBalance, string $adminQR, int $adminPin/*, float $ticketPrice*/)
     {
-        if (!self::isSetup($pdo)) {
+        $stmt = $pdo->query("SELECT id, is_setup FROM server");
+        $res = $stmt->fetch();
+        if (empty($res)) return;
+        if ($res["is_setup"] === 1) {
             dbController::createUser($pdo, $adminQR, $adminPin, 0, 3);
-            $stmt = $pdo->prepare("INSERT INTO server (is_setup, initial_balance) VALUE (?, ?)");
-            $stmt->execute([true, $initBalance]);
+            $stmt = $pdo->prepare("INSERT INTO server (is_setup, initial_balance) VALUE (TRUE, ?)");
+            $stmt->execute([$initBalance]);
+        } else if ($res["is_setup"] === 0) {
+            $stmt = $pdo->prepare("UPDATE server SET is_setup = TRUE AND initial_balance = ? WHERE id = ?");
+            $stmt->execute([$initBalance, $res["id"]]);
         }
     }
 }
