@@ -27,25 +27,30 @@ else :
                 <tr>
                     <th>Name</th>
                     <th>Preis</th>
-                    <th>Restliche volle Kästen</th>
-                    <th>Restliche Flaschen</th>
+                    <th>Restliche Getränke</th>
+                    <th>Flaschen pro Kasten</th>
+                    <th>Ausgabeberechtigung</th>
                 </tr>
 
                 <?php
                 // TODO: Product editor
+                $permDict = ["Teilnehmer*Inn", "Mentor*Inn", "Infodesk Mensch", "Superduper Admin"];
                 foreach (dbController::getProducts($pdo) as $product) {
                     $amt = $product["amount"];
                     $bpc = $product["bottles_per_crate"];
                     ?>
-                    <tr>
+                    <tr data-id="<?php echo $product["id"] ?>">
                         <td><?php echo $product["name"] ?></td>
-                        <td><?php echo $product["price"] ?></td>
+                        <td><?php echo $product["price"] . "€" ?></td>
                         <td>
                             <span style="cursor: help" title="<?php echo "à " . $bpc . " Flaschen" ?>">
-                                <?php echo (int)$amt ?>
+                                <?php echo (int)$amt ?> Kästen und <?php echo (int)(fmod($amt, 1) * $bpc) ?> Flaschen
                             </span>
                         </td>
-                        <td><?php echo (int)(fmod($amt, 1) * $bpc) ?></td>
+                        <td><?php echo $bpc ?></td>
+                        <td><?php echo $permDict[(int)$product["permission"]] ?></td>
+                        <td><img src="assets/icons/edit.svg" alt="Edit" class="edit-btn"></td>
+                        <td><img src="assets/icons/x.svg" alt="Edit" class="delete-btn"></td>
                     </tr>
                     <?php
                 }
@@ -56,6 +61,7 @@ else :
 
     </main>
     <?php include("includes/footer.php"); ?>
+    <script src="assets/js/product.js"></script>
     </body>
 
     </html>

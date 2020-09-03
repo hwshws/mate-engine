@@ -66,6 +66,7 @@ class dbController
      * @param float $crate_amount
      * @param int $bpc
      * @param int $permission
+     * @return array
      */
     public static function addProduct(PDO $pdo, string $name, float $price, float $crate_amount, int $bpc, int $permission = 0)
     {
@@ -228,6 +229,17 @@ class dbController
         return $stmt->fetchAll();
     }
 
+    /**
+     * Update a given product
+     * @param PDO $pdo
+     * @param int $id
+     * @param float $price
+     * @param string $name
+     * @param float $amount
+     * @param int $bpc
+     * @param int $permission
+     * @return array
+     */
     public static function updateProduct(PDO $pdo, int $id, float $price, string $name, float $amount, int $bpc, int $permission)
     {
         $resp = array("success" => false, "data" => array("title" => "Produkt konnte nicht geupdated werden!"));
@@ -243,7 +255,7 @@ class dbController
                 )
             );
         } else {
-            $resp[""] = dbController::addProduct($pdo, $name, $price, $amount, $bpc, $permission);
+            $resp = dbController::addProduct($pdo, $name, $price, $amount, $bpc, $permission);
         }
         return $resp;
     }
