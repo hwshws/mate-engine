@@ -69,8 +69,18 @@ class dbController
      */
     public static function addProduct(PDO $pdo, string $name, float $price, float $crate_amount, int $bpc, int $permission = 0)
     {
-        $stmt = $pdo->prepare("INSERT INTO products (price, name, amount, bottles_per_crate, permission) VALUE (?,?,?,?,?)");
-        $stmt->execute([$price, $name, $crate_amount, $bpc, $permission]);
+        $resp = array("success" => false, "data" => null);
+        try {
+            $stmt = $pdo->prepare("INSERT INTO products (price, name, amount, bottles_per_crate, permission) VALUE (?,?,?,?,?)");
+            $stmt->execute([$price, $name, $crate_amount, $bpc, $permission]);
+            $resp["success"] = true;
+            $resp["data"]["title"] = "Produkt $name wurde erfolgreich hinzugefügt";
+        } catch (PDOException $e) {
+            $resp["data"]["title"] = "Produkt konnte nicht hinzugefügt werden!";
+            $resp["data"]["text"] = "Produkt mit selben Namen existiert bereits";
+        } finally {
+            return $resp;
+        }
     }
 
     /**
@@ -93,7 +103,7 @@ class dbController
                 if ($auth["permission"] >= $product["permission"]) {
                     if ($user["balance"] > $product["price"] * $product_amount) {
                         dbController::changeUserBalance($pdo, $user["id"], -$product["price"] * $product_amount);
-                        dbController::updateProduct($pdo, $pid, $product_amount);
+                        dbController::buyProduct($pdo, $pid, $product_amount);
                         for ($i = 0; $i < $product_amount; $i++) dbController::updateLog($pdo, $user["id"], $auth["id"], $pid); // TODO: Better logging
                         $resp["success"] = true;
                         $resp["data"]["title"] = "Getränk" . ($product_amount > 1 ? "e" : "") . " gekauft!";
@@ -135,7 +145,7 @@ class dbController
      * @param int $pid
      * @param int $amount
      */
-    private static function updateProduct(PDO $pdo, int $pid, int $amount)
+    private static function buyProduct(PDO $pdo, int $pid, int $amount)
     {
         $stmt = $pdo->prepare("UPDATE products SET amount = amount - (? / bottles_per_crate) WHERE id = ?");
         $stmt->execute([$amount, $pid]);
@@ -216,6 +226,26 @@ class dbController
     {
         $stmt = $pdo->query("SELECT * FROM products");
         return $stmt->fetchAll();
+    }
+
+    public static function updateProduct(PDO $pdo, int $id, float $price, string $name, float $amount, int $bpc, int $permission)
+    {
+        $resp = array("success" => false, "data" => array("title" => "Produkt konnte nicht geupdated werden!"));
+        $product = dbController::getProductById($pdo, $id);
+        if (isset($product)) {
+            $stmt = $pdo->prepare("UPDATE products SET price = ? AND name = ? AND amount = ? AND bottles_per_crate = ? AND permission = ? WHERE id = ?");
+            $stmt->execute([$price, $name, $amount, $bpc, $permission]);
+            $resp = array(
+                "success" => true,
+                "data" => array(
+                    "title" => "Produkt geupdated!",
+                    "text" => "Produkt $name wurde geupdated!",
+                )
+            );
+        } else {
+            $resp[""] = dbController::addProduct($pdo, $name, $price, $amount, $bpc, $permission);
+        }
+        return $resp;
     }
 
     /**
