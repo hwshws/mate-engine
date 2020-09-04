@@ -30,6 +30,8 @@ else :
                     <th>Restliche Getränke</th>
                     <th>Flaschen pro Kasten</th>
                     <th>Ausgabeberechtigung</th>
+                    <th>Bearbeiten</th>
+                    <th>Löschen</th>
                 </tr>
 
                 <?php
@@ -38,24 +40,30 @@ else :
                 foreach (dbController::getProducts($pdo) as $product) {
                     $amt = $product["amount"];
                     $bpc = $product["bottles_per_crate"];
+                    // TODO: Consider page reload vs js refresh
                     ?>
                     <tr data-id="<?php echo $product["id"] ?>">
                         <td><?php echo $product["name"] ?></td>
                         <td><?php echo $product["price"] . "€" ?></td>
-                        <td>
-                            <span style="cursor: help" title="<?php echo "à " . $bpc . " Flaschen" ?>">
-                                <?php echo (int)$amt ?> Kästen und <?php echo (int)(fmod($amt, 1) * $bpc) ?> Flaschen
-                            </span>
-                        </td>
+                        <td><?php echo (int)$amt ?> Kästen und <?php echo (int)(fmod($amt, 1) * $bpc) ?> Flaschen</td>
                         <td><?php echo $bpc ?></td>
                         <td><?php echo $permDict[(int)$product["permission"]] ?></td>
                         <td><img src="assets/icons/edit.svg" alt="Edit" class="edit-btn"></td>
-                        <td><img src="assets/icons/x.svg" alt="Edit" class="delete-btn"></td>
+                        <td><img src="assets/icons/x.svg" alt="Delete" class="delete-btn"></td>
                     </tr>
                     <?php
                 }
                 ?>
-
+                <tr>
+                    <!-- TODO: I don't know css KEKW -->
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><img src="assets/icons/plus-circle.svg" alt="Add" class="add-btn"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
             </table>
         </div>
 

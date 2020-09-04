@@ -30,22 +30,6 @@ forms.forEach(form => {
     });
 });
 
-function saSuccess(title, text) {
-    Swal.fire({
-        icon: "success",
-        title, text,
-        showCloseButton: true,
-    });
-}
-
-function saError(title, text) {
-    Swal.fire({
-        icon: "error",
-        title, text,
-        showCloseButton: true,
-    });
-}
-
 function loginSuccess(data) {
     window.location.reload();
 }

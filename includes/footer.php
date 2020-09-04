@@ -1,3 +1,4 @@
+<script src="assets/js/lib.js"></script>
 <script src="assets/js/qa.js"></script>
 <script src="assets/js/form.js"></script>
 <script src="assets/js/jquery.min.js"></script>

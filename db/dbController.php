@@ -260,6 +260,12 @@ class dbController
         return $resp;
     }
 
+    public static function deleteProduct(PDO $pdo, int $pid) {
+        // TODO: Error handling
+        $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
+        $stmt->execute([$pid]);
+    }
+
     /**
      * Parses csv and adds all products to db
      * @param PDO $pdo
