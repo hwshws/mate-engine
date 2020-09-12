@@ -11,6 +11,8 @@ function addListener(row) {
     const confirms = row.querySelector(".confirm-btn");
     const abort = row.querySelector(".abort-btn");
 
+    console.log(edit, del, confirms, abort);
+
     edit.addEventListener("click", evt => {
         // TODO: Improve the hell out of this
         const row = evt.target.parentElement.parentElement;
@@ -23,7 +25,6 @@ function addListener(row) {
             switch (key) {
                 case "amt":
                     const [crates, bottles] = value.split(";");
-                    console.log(crates, bottles, value);
                     val = `<input type="number" name="crates" value="${crates}"> Kästen und <input type="number" name="bottles" value="${bottles}"> Flaschen`;
                     break;
                 case "permission":
@@ -141,7 +142,6 @@ function clearTable() {
 function createRow(rowData) {
     const row = document.createElement("tr");
     refreshRow(row, rowData);
-    addListener(row);
     return row;
 }
 
@@ -151,7 +151,6 @@ function refreshRow(row, rowData) {
     row.dataset.id = rowData.id;
     row.dataset.name = rowData.name;
     row.dataset.price = rowData.price;
-    row.dataset.bpc = rowData.bottles_per_crate;
     row.dataset.permission = rowData.permission;
     let amtCol;
     if (rowData.amount) {
@@ -159,16 +158,18 @@ function refreshRow(row, rowData) {
         const btls = (rowData.amount % 1) * rowData.bottles_per_crate;
         row.dataset.amt = `${amt};${btls}`;
         amtCol = `${amt} Kästen und ${btls} Flaschen`;
+        row.dataset.bpc = rowData.bottles_per_crate;
     } else {
         row.dataset.amt = rowData.amt;
         const s = rowData.amt.split(";");
         amtCol = `${s[0]} Kästen und ${s[1]} Flaschen`;
+        row.dataset.bpc = rowData.bpc;
     }
     row.append(
         createTD(rowData.name, "name"),
         createTD(`${rowData.price}€`, "price"),
         createTD(amtCol, "amt"),
-        createTD(rowData.bottles_per_crate, "bpc"),
+        createTD(rowData.bottles_per_crate || rowData.bpc, "bpc"),
         createTD(permissions[+rowData.permission], "permission"),
     );
     row.innerHTML += `
@@ -181,6 +182,7 @@ function refreshRow(row, rowData) {
             <img src='assets/icons/x.svg' alt='Abort' class='abort-btn' title='Abbrechen' style='display: none;'>
         </td>
     `;
+    addListener(row);
 }
 
 function createTD(value, key) {
