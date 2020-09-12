@@ -7,10 +7,10 @@ body {
     text-align: center;
 }
 
-.edit-btn, .delete-btn, .add-btn {
+.edit-btn, .delete-btn, .add-btn, .confirm-btn, .abort-btn {
     cursor: pointer;
 }
 
-.edit-btn:hover, .delete-btn:hover, .add-btn:hover {
+.edit-btn:hover, .delete-btn:hover, .add-btn:hover, .confirm-btn:hover, .abort-btn:hover {
     opacity: .7;
 }

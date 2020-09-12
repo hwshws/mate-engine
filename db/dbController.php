@@ -245,8 +245,8 @@ class dbController
         $resp = array("success" => false, "data" => array("title" => "Produkt konnte nicht geupdated werden!"));
         $product = dbController::getProductById($pdo, $id);
         if (isset($product)) {
-            $stmt = $pdo->prepare("UPDATE products SET price = ? AND name = ? AND amount = ? AND bottles_per_crate = ? AND permission = ? WHERE id = ?");
-            $stmt->execute([$price, $name, $amount, $bpc, $permission]);
+            $stmt = $pdo->prepare("UPDATE products SET price = ?, name = ?, amount = ?, bottles_per_crate = ?, permission = ? WHERE id = ?");
+            $stmt->execute([$price, $name, $amount, $bpc, $permission, $id]);
             $resp = array(
                 "success" => true,
                 "data" => array(
@@ -261,8 +261,7 @@ class dbController
     }
 
     public static function deleteProduct(PDO $pdo, int $pid) {
-        // TODO: Error handling
-        $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
+        $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?"); // TODO: Consider how to delete log
         $stmt->execute([$pid]);
     }
 
@@ -342,7 +341,7 @@ class dbController
             $stmt = $pdo->prepare("INSERT INTO server (is_setup, initial_balance) VALUE (TRUE, ?)");
             $stmt->execute([$initBalance]);
         } else if ($res["is_setup"] === 0) {
-            $stmt = $pdo->prepare("UPDATE server SET is_setup = TRUE AND initial_balance = ? WHERE id = ?");
+            $stmt = $pdo->prepare("UPDATE server SET is_setup = TRUE, initial_balance = ? WHERE id = ?");
             $stmt->execute([$initBalance, $res["id"]]);
         }
     }

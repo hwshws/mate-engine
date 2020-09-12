@@ -23,34 +23,48 @@ else :
 
         <div class="starter-template">
             <h1>Getränkeverkauf <small class="text-muted">Produktinformation</small></h1>
-            <table class='table'>
+            <table>
                 <tr>
                     <th>Name</th>
                     <th>Preis</th>
                     <th>Restliche Getränke</th>
                     <th>Flaschen pro Kasten</th>
                     <th>Ausgabeberechtigung</th>
-                    <th>Bearbeiten</th>
-                    <th>Löschen</th>
+                    <th></th>
+                    <th></th>
                 </tr>
 
                 <?php
                 // TODO: Product editor
                 $permDict = ["Teilnehmer*Inn", "Mentor*Inn", "Infodesk Mensch", "Superduper Admin"];
                 foreach (dbController::getProducts($pdo) as $product) {
+                    $id = $product["id"];
+                    $name = $product["name"];
+                    $price = $product["price"];
                     $amt = $product["amount"];
+                    $iamt = (int)$amt;
                     $bpc = $product["bottles_per_crate"];
+                    $leftover = (int)(fmod($amt, 1) * $bpc);
+                    $permission = $product["permission"];
                     // TODO: Consider page reload vs js refresh
+                    echo "
+                        <tr data-id='$id' data-name='$name' data-price='$price' data-amt='$iamt;$leftover' data-bpc='$bpc' data-permission='$permission'>
+                            <td data-key='name'>$name</td>
+                            <td data-key='price'>$price €</td>
+                            <td data-key='amt'>$iamt Kästen und $leftover Flaschen</td>
+                            <td data-key='bpc'>$bpc</td>
+                            <td data-key='permission'>$permDict[$permission]</td>
+                            <td data-key='edit-confirm'>
+                                <img src='assets/icons/edit.svg' alt='Edit' class='edit-btn' title='Bearbeiten'>
+                                <img src='assets/icons/check.svg' alt='Confirm' class='confirm-btn' title='Bestätigen' style='display: none'>
+                            </td>
+                            <td data-key='delete-abort'>
+                                <img src='assets/icons/x.svg' alt='Delete' class='delete-btn' title='Löschen'>
+                                <img src='assets/icons/x.svg' alt='Abort' class='abort-btn' title='Abbrechen' style='display: none;'>
+                            </td>
+                        </tr>
+                    ";
                     ?>
-                    <tr data-id="<?php echo $product["id"] ?>">
-                        <td><?php echo $product["name"] ?></td>
-                        <td><?php echo $product["price"] . "€" ?></td>
-                        <td><?php echo (int)$amt ?> Kästen und <?php echo (int)(fmod($amt, 1) * $bpc) ?> Flaschen</td>
-                        <td><?php echo $bpc ?></td>
-                        <td><?php echo $permDict[(int)$product["permission"]] ?></td>
-                        <td><img src="assets/icons/edit.svg" alt="Edit" class="edit-btn"></td>
-                        <td><img src="assets/icons/x.svg" alt="Delete" class="delete-btn"></td>
-                    </tr>
                     <?php
                 }
                 ?>
@@ -59,7 +73,7 @@ else :
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><img src="assets/icons/plus-circle.svg" alt="Add" class="add-btn"></td>
+                    <td><img src="assets/icons/plus-circle.svg" alt="Add" class="add-btn" title="Hinzufügen"></td>
                     <td></td>
                     <td></td>
                     <td></td>
