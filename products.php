@@ -23,7 +23,8 @@ else :
 
         <div class="starter-template">
             <h1>Getränkeverkauf <small class="text-muted">Produktinformation</small></h1>
-            <table>
+            <table id="product-table">
+                <thead>
                 <tr>
                     <th>Name</th>
                     <th>Preis</th>
@@ -33,43 +34,12 @@ else :
                     <th></th>
                     <th></th>
                 </tr>
-
-                <?php
-                // TODO: Product editor
-                $permDict = ["Teilnehmer*Inn", "Mentor*Inn", "Infodesk Mensch", "Superduper Admin"];
-                foreach (dbController::getProducts($pdo) as $product) {
-                    $id = $product["id"];
-                    $name = $product["name"];
-                    $price = $product["price"];
-                    $amt = $product["amount"];
-                    $iamt = (int)$amt;
-                    $bpc = $product["bottles_per_crate"];
-                    $leftover = (int)(fmod($amt, 1) * $bpc);
-                    $permission = $product["permission"];
-                    // TODO: Consider page reload vs js refresh
-                    echo "
-                        <tr data-id='$id' data-name='$name' data-price='$price' data-amt='$iamt;$leftover' data-bpc='$bpc' data-permission='$permission'>
-                            <td data-key='name'>$name</td>
-                            <td data-key='price'>$price €</td>
-                            <td data-key='amt'>$iamt Kästen und $leftover Flaschen</td>
-                            <td data-key='bpc'>$bpc</td>
-                            <td data-key='permission'>$permDict[$permission]</td>
-                            <td data-key='edit-confirm'>
-                                <img src='assets/icons/edit.svg' alt='Edit' class='edit-btn' title='Bearbeiten'>
-                                <img src='assets/icons/check.svg' alt='Confirm' class='confirm-btn' title='Bestätigen' style='display: none'>
-                            </td>
-                            <td data-key='delete-abort'>
-                                <img src='assets/icons/x.svg' alt='Delete' class='delete-btn' title='Löschen'>
-                                <img src='assets/icons/x.svg' alt='Abort' class='abort-btn' title='Abbrechen' style='display: none;'>
-                            </td>
-                        </tr>
-                    ";
-                    ?>
-                    <?php
-                }
-                ?>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
                 <tr>
                     <!-- TODO: I don't know css KEKW -->
+                    <!-- TODO: Use a div and center align -->
                     <td></td>
                     <td></td>
                     <td></td>
@@ -78,6 +48,7 @@ else :
                     <td></td>
                     <td></td>
                 </tr>
+                </tfoot>
             </table>
         </div>
 

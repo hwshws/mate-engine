@@ -47,7 +47,8 @@ if ($_SESSION["isLoggedIn"] && $_SESSION["isAdmin"]) {
             $resp["data"] = badRequest();
         }
     } else if ($method === "GET") {
-        // TODO: Get products might be used for js refresh
+        $resp["success"] = true;
+        $resp["data"]["rows"] = dbController::getProducts($pdo);
     } else {
         http_response_code(405);
         $resp["data"]["title"] = "Method not allowed!";
