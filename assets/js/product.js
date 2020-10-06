@@ -3,15 +3,13 @@ const tableBody = table.querySelector("tbody");
 const add = document.querySelector(".add-btn");
 const permissions = ["Teilnehmer*Inn", "Mentor*Inn", "Infodesk Mensch", "Superduper Admin"];
 
-refreshTable().then();
+refreshTable();
 
 function addListener(row) {
     const edit = row.querySelector(".edit-btn");
     const del = row.querySelector(".delete-btn");
     const confirms = row.querySelector(".confirm-btn");
     const abort = row.querySelector(".abort-btn");
-
-    console.log(edit, del, confirms, abort);
 
     edit.addEventListener("click", evt => {
         // TODO: Improve the hell out of this
@@ -191,3 +189,46 @@ function createTD(value, key) {
     td.dataset.key = key;
     return td;
 }
+
+add.addEventListener("click", evt => {
+    // TODO: Append inputs
+    const rows = document.querySelectorAll("tr");
+    const datas = rows[rows.length - 1].children;
+    datas[0].innerHTML = `<input type="text" name="name" placeholder="Name" required>`;
+    datas[1].innerHTML = `<input type="number" name="price" value="0.00" placeholder="Preis" required>€`;
+    datas[2].innerHTML = `<input type="number" name="crates" required> Kästen und <input type="number" name="bottles" value="0" required> Flaschen`;
+    datas[3].innerHTML = `<input type="number" name="bpc" value="0" placeholder="Flaschen pro Kasten" required>`;
+    datas[4].innerHTML = `
+        <select name="permission" id="permission" class="form-control" required>
+            <option value="0" selected>Teilnehmer*Inn</option>
+            <option value="1">Mentor*Inn</option>
+            <option value="2">Infodesk Mensch</option>
+            <option value="3">Superduper Admin</option>
+        </select>`;
+    const btn = document.createElement("input");
+    btn.type = "submit";
+    btn.value = "Hinzufügen";
+    datas[5].appendChild(btn);
+    btn.addEventListener("click", async e => {
+        const row = e.target.parentElement.parentElement;
+        const inputs = row.querySelectorAll("input");
+        const selects = row.querySelectorAll("select");
+        const body = {};
+        inputs.forEach(input => {
+            if (input.type !== "submit") body[input.name] = input.value
+        });
+        selects.forEach(select => body[select.name] = select.options[select.selectedIndex].value);
+        const resp = await fetch("controller/product.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        });
+        const res = await resp.json();
+        if (res.success) {
+            saSuccess(res.data.title);
+            await refreshTable();
+        } else {
+            saError(res.data.title, res.data.text);
+        }
+    });
+});
