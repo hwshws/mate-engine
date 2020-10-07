@@ -5,14 +5,15 @@ const permissions = ["Teilnehmer*Inn", "Mentor*Inn", "Infodesk Mensch", "Superdu
 
 refreshTable();
 
+// TODO: Form validators
+
 function addListener(row) {
     const edit = row.querySelector(".edit-btn");
     const del = row.querySelector(".delete-btn");
-    const confirms = row.querySelector(".confirm-btn");
-    const abort = row.querySelector(".abort-btn");
+    const confirms = row.querySelector(".confirm-btn:not(#confirm-submit-btn)");
+    const abort = row.querySelector(".abort-btn:not(#abort-submit-btn)");
 
     edit.addEventListener("click", evt => {
-        // TODO: Improve the hell out of this
         const row = evt.target.parentElement.parentElement;
         const d = row.dataset;
         for (let i = 0; i < row.children.length; i++) {
@@ -191,25 +192,27 @@ function createTD(value, key) {
 }
 
 add.addEventListener("click", evt => {
-    // TODO: Append inputs
-    const rows = document.querySelectorAll("tr");
-    const datas = rows[rows.length - 1].children;
-    datas[0].innerHTML = `<input type="text" name="name" placeholder="Name" required>`;
-    datas[1].innerHTML = `<input type="number" name="price" value="0.00" placeholder="Preis" required>€`;
-    datas[2].innerHTML = `<input type="number" name="crates" required> Kästen und <input type="number" name="bottles" value="0" required> Flaschen`;
-    datas[3].innerHTML = `<input type="number" name="bpc" value="0" placeholder="Flaschen pro Kasten" required>`;
-    datas[4].innerHTML = `
-        <select name="permission" id="permission" class="form-control" required>
-            <option value="0" selected>Teilnehmer*Inn</option>
-            <option value="1">Mentor*Inn</option>
-            <option value="2">Infodesk Mensch</option>
-            <option value="3">Superduper Admin</option>
-        </select>`;
-    const btn = document.createElement("input");
-    btn.type = "submit";
-    btn.value = "Hinzufügen";
-    datas[5].appendChild(btn);
-    btn.addEventListener("click", async e => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td><input type="text" name="name" placeholder="Name" required></td>
+        <td><input type="number" name="price" value="0.00" min="0" placeholder="Preis" required></td>
+        <td><input type="number" name="crates" value="0" min="0" required> Kästen und <input type="number" name="bottles" value="0" min="0" required> Flaschen</td>
+        <td><input type="number" name="bpc" value="0" min="1" placeholder="Flaschen pro Kasten" required></td>
+        <td>
+            <select name="permission" id="permission" class="form-control" required>
+                <option value="0" selected>Teilnehmer*Inn</option>
+                <option value="1">Mentor*Inn</option>
+                <option value="2">Infodesk Mensch</option>
+                <option value="3">Superduper Admin</option>
+            </select>
+        </td>
+        <td><img src='assets/icons/check.svg' alt='Submit' class="confirm-btn" id='submit-add-btn' title='Hinzufügen'></td>
+        <td><img src='assets/icons/x.svg' alt='Abort' class="abort-btn" id='abort-add-btn' title='Abbrechen'></td>
+    `;
+
+    tableBody.insertAdjacentElement("beforeend", row);
+
+    document.getElementById("submit-add-btn").addEventListener("click", async e => {
         const row = e.target.parentElement.parentElement;
         const inputs = row.querySelectorAll("input");
         const selects = row.querySelectorAll("select");
@@ -230,5 +233,7 @@ add.addEventListener("click", evt => {
         } else {
             saError(res.data.title, res.data.text);
         }
-    });
+    })
+
+    document.getElementById("abort-add-btn").addEventListener("click", refreshTable);
 });

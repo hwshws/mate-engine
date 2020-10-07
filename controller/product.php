@@ -9,9 +9,11 @@ $method = $_SERVER["REQUEST_METHOD"];
 $post = json_decode(file_get_contents('php://input'), true);
 $resp = array("success" => false, "data" => null);
 
+// TODO: Body checks
+
 if ($_SESSION["isLoggedIn"] && $_SESSION["isAdmin"]) {
     if ($method === "DELETE") {
-        if (checkPost($post, "pid")) {
+        if (!checkPost($post, "pid")) {
             try {
                 dbController::deleteProduct($pdo, $post["pid"]);
                 $resp["success"] = true;
@@ -26,7 +28,9 @@ if ($_SESSION["isLoggedIn"] && $_SESSION["isAdmin"]) {
         }
     } else if ($method === "POST") {
         $resp["data"]["title"] = "Produkt konnte nicht hinzugefügt werden!";
-        if (checkPost($post, "id", "name", "price", "crates", "bottles", "bpc", "permission")) {
+        if (!(checkPost($post, "id", "name", "price", "crates", "bottles", "bpc", "permission") ||
+            ($post["price"] > 0 && $post["price"] >= 100 && $post["crates"] > 0 && $post["bottles"] > 0 && $post["bpc"] > 1 && $post["permission"] >= 0 && $post <= 3))
+        ) {
             try {
                 $resp = dbController::addProduct($pdo, $post["name"], $post["price"], $post["crates"] + $post["bottles"] / $post["bpc"], $post["bpc"], $post["permission"]);
             } catch (PDOException $e) {
@@ -37,7 +41,7 @@ if ($_SESSION["isLoggedIn"] && $_SESSION["isAdmin"]) {
         }
     } else if ($method === "PUT") {
         $resp["data"]["title"] = "Produkt konnte nicht geupdated werden!";
-        if (checkPost($post, "id", "name", "price", "crates", "bottles", "bpc", "permission")) {
+        if (!checkPost($post, "id", "name", "price", "crates", "bottles", "bpc", "permission")) {
             try {
                 $resp = dbController::updateProduct($pdo, $post["id"], $post["price"], $post["name"], $post["crates"] + $post["bottles"] / $post["bpc"], $post["bpc"], $post["permission"]);
             } catch (PDOException $e) {
