@@ -24,7 +24,7 @@ class dbController
      * @param int $uid
      * @return mixed
      */
-    public static function getUserBalance(PDO $pdo, int $uid)
+    public static function getUserBalance(PDO $pdo, int $uid): mixed
     {
         $user = dbController::getUserById($pdo, $uid);
         return $user["balance"];
@@ -36,7 +36,7 @@ class dbController
      * @param string $secret
      * @return mixed
      */
-    public static function getUserBalanceBySecret(PDO $pdo, string $secret)
+    public static function getUserBalanceBySecret(PDO $pdo, string $secret): mixed
     {
         $user = dbController::getUserBySecret($pdo, $secret);
         return $user["balance"];
@@ -68,7 +68,7 @@ class dbController
      * @param int $permission
      * @return array
      */
-    public static function addProduct(PDO $pdo, string $name, float $price, float $crate_amount, int $bpc, int $permission = 0)
+    public static function addProduct(PDO $pdo, string $name, float $price, float $crate_amount, int $bpc, int $permission = 0): array
     {
         $resp = array("success" => false, "data" => null);
         try {
@@ -93,7 +93,7 @@ class dbController
      * @param string $authSecret
      * @return array
      */
-    public static function transaction(PDO $pdo, int $pid, int $product_amount, string $userSecret, string $authSecret)
+    public static function transaction(PDO $pdo, int $pid, int $product_amount, string $userSecret, string $authSecret): array
     {
         $auth = dbController::getUserBySecret($pdo, $authSecret);
         $user = dbController::getUserBySecret($pdo, $userSecret);
@@ -170,7 +170,7 @@ class dbController
      * @param string $secret
      * @return mixed
      */
-    private static function getUserBySecret(PDO $pdo, string $secret)
+    private static function getUserBySecret(PDO $pdo, string $secret): mixed
     {
         $stmt = $pdo->prepare("SELECT id, secret, balance, permission, code FROM users WHERE secret = ?");
         $stmt->execute([$secret]);
@@ -183,7 +183,7 @@ class dbController
      * @param int $uid
      * @return mixed
      */
-    private static function getUserById(PDO $pdo, int $uid)
+    private static function getUserById(PDO $pdo, int $uid): mixed
     {
         $stmt = $pdo->prepare("SELECT id, secret, balance, permission, code FROM users WHERE id = ?");
         $stmt->execute([$uid]);
@@ -196,7 +196,7 @@ class dbController
      * @param int $pid
      * @return mixed
      */
-    private static function getProductById(PDO $pdo, int $pid)
+    private static function getProductById(PDO $pdo, int $pid): mixed
     {
         $stmt = $pdo->prepare("SELECT id, price, name, amount, permission, bottles_per_crate FROM products WHERE id = ?");
         $stmt->execute([$pid]);
@@ -210,7 +210,7 @@ class dbController
      * @param int $code
      * @return array
      */
-    public static function login(PDO $pdo, string $secret, int $code)
+    public static function login(PDO $pdo, string $secret, int $code): array
     {
         $stmt = $pdo->prepare("SELECT id, permission FROM users WHERE secret = ? AND code = ?");
         $stmt->execute([$secret, md5($code)]);
@@ -223,7 +223,7 @@ class dbController
      * @param PDO $pdo
      * @return array
      */
-    public static function getProducts(PDO $pdo)
+    public static function getProducts(PDO $pdo): array
     {
         $stmt = $pdo->query("SELECT * FROM products ORDER BY name");
         return $stmt->fetchAll();
@@ -240,9 +240,8 @@ class dbController
      * @param int $permission
      * @return array
      */
-    public static function updateProduct(PDO $pdo, int $id, float $price, string $name, float $amount, int $bpc, int $permission)
+    public static function updateProduct(PDO $pdo, int $id, float $price, string $name, float $amount, int $bpc, int $permission): array
     {
-        $resp = array("success" => false, "data" => array("title" => "Produkt konnte nicht geupdated werden!"));
         $product = dbController::getProductById($pdo, $id);
         if (isset($product)) {
             $stmt = $pdo->prepare("UPDATE products SET price = ?, name = ?, amount = ?, bottles_per_crate = ?, permission = ? WHERE id = ?");
@@ -266,32 +265,13 @@ class dbController
     }
 
     /**
-     * Parses csv and adds all products to db
-     * @param PDO $pdo
-     * @param string $fn
-     */
-    public static function parseProductCSV(PDO $pdo, string $fn)
-    {
-        $hndl = fopen($fn, "r");
-        $flag = true;
-        while ($data = fgetcsv($hndl, 1000, ",")) {
-            if ($flag) {
-                $flag = false;
-                continue;
-            }
-            dbController::addProduct($pdo, $data[0], $data[1], $data[2], $data[3], $data[4]);
-        }
-        fclose($hndl);
-    }
-
-    /**
      * Validates user secret and code against the db
      * @param PDO $pdo
      * @param string $userSecret
      * @param string $userCode
      * @return bool
      */
-    public static function validateUser(PDO $pdo, string $userSecret, string $userCode)
+    public static function validateUser(PDO $pdo, string $userSecret, string $userCode): bool
     {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE secret = ? AND code = ?");
         $stmt->execute([$userSecret, md5($userCode)]);
@@ -304,7 +284,7 @@ class dbController
      * @param int $code
      * @return bool
      */
-    public static function isAdmin(PDO $pdo, string $secret, int $code)
+    public static function isAdmin(PDO $pdo, string $secret, int $code): bool
     {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE secret = ? AND code = ?");
         $stmt->execute([$secret, md5($code)]);
@@ -317,7 +297,7 @@ class dbController
      * @param PDO $pdo
      * @return bool
      */
-    public static function isSetup(PDO $pdo)
+    public static function isSetup(PDO $pdo): bool
     {
         $stmt = $pdo->query("SELECT * FROM server");
         $res = $stmt->fetch();

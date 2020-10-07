@@ -29,7 +29,7 @@ if ($_SESSION["isLoggedIn"] && $_SESSION["isAdmin"]) {
     } else if ($method === "POST") {
         $resp["data"]["title"] = "Produkt konnte nicht hinzugefügt werden!";
         if (checkPost($post, "id", "name", "price", "crates", "bottles", "bpc", "permission") &&
-            ($post["price"] > 0 && $post["price"] >= 100 && $post["crates"] > 0 && $post["bottles"] > 0 && $post["bpc"] > 1 && $post["permission"] >= 0 && $post <= 3)
+            ($post["price"] > 0 && $post["price"] < 100 && $post["crates"] > 0 && $post["bottles"] > 0 && $post["bpc"] > 1 && $post["permission"] >= 0 && $post["permission"] <= 3)
         ) {
             try {
                 $resp = dbController::addProduct($pdo, $post["name"], $post["price"], $post["crates"] + $post["bottles"] / $post["bpc"], $post["bpc"], $post["permission"]);
