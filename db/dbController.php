@@ -225,7 +225,7 @@ class dbController
      */
     public static function getProducts(PDO $pdo)
     {
-        $stmt = $pdo->query("SELECT * FROM products");
+        $stmt = $pdo->query("SELECT * FROM products ORDER BY name");
         return $stmt->fetchAll();
     }
 

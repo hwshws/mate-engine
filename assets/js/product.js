@@ -57,7 +57,6 @@ function addListener(row) {
         const body = { id: row.dataset.id };
         const inputs = row.querySelectorAll("input");
         const selects = row.querySelectorAll("select");
-        // TODO: Form validators
         inputs.forEach(input => {
             if (input.type !== "submit") body[input.name] = input.value
         });
@@ -70,8 +69,8 @@ function addListener(row) {
 
         const res = await resp.json();
         if (res.success) {
-            saSuccess(res.data.title, res.data.text);
-            await refreshRow(row);
+            saSuccess(res.data.title, res.data.text)
+            await refreshTable();
         } else {
             saError(res.data.title, res.data.text);
         }
@@ -191,7 +190,7 @@ function createTD(value, key) {
     return td;
 }
 
-add.addEventListener("click", evt => {
+add.addEventListener("click", () => {
     const row = document.createElement("tr");
     row.innerHTML = `
         <td><input type="text" name="name" placeholder="Name" required></td>

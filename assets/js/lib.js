@@ -3,7 +3,7 @@ NodeList.prototype.on = function (event, handler) {
 }
 
 function saSuccess(title, text) {
-    Swal.fire({
+    return Swal.fire({
         icon: "success",
         title, text,
         showCloseButton: true,
@@ -11,7 +11,7 @@ function saSuccess(title, text) {
 }
 
 function saError(title, text) {
-    Swal.fire({
+    return Swal.fire({
         icon: "error",
         title, text,
         showCloseButton: true,
