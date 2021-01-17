@@ -24,7 +24,7 @@ class dbController
      * @param int $uid
      * @return mixed
      */
-    public static function getUserBalance(PDO $pdo, int $uid): mixed
+    public static function getUserBalance(PDO $pdo, int $uid)
     {
         $user = dbController::getUserById($pdo, $uid);
         return $user["balance"];
@@ -36,7 +36,7 @@ class dbController
      * @param string $secret
      * @return mixed
      */
-    public static function getUserBalanceBySecret(PDO $pdo, string $secret): mixed
+    public static function getUserBalanceBySecret(PDO $pdo, string $secret): string
     {
         $user = dbController::getUserBySecret($pdo, $secret);
         return $user["balance"];
@@ -170,7 +170,7 @@ class dbController
      * @param string $secret
      * @return mixed
      */
-    private static function getUserBySecret(PDO $pdo, string $secret): mixed
+    private static function getUserBySecret(PDO $pdo, string $secret)
     {
         $stmt = $pdo->prepare("SELECT id, secret, balance, permission, code FROM users WHERE secret = ?");
         $stmt->execute([$secret]);
@@ -183,7 +183,7 @@ class dbController
      * @param int $uid
      * @return mixed
      */
-    private static function getUserById(PDO $pdo, int $uid): mixed
+    private static function getUserById(PDO $pdo, int $uid)
     {
         $stmt = $pdo->prepare("SELECT id, secret, balance, permission, code FROM users WHERE id = ?");
         $stmt->execute([$uid]);
@@ -196,7 +196,7 @@ class dbController
      * @param int $pid
      * @return mixed
      */
-    private static function getProductById(PDO $pdo, int $pid): mixed
+    private static function getProductById(PDO $pdo, int $pid)
     {
         $stmt = $pdo->prepare("SELECT id, price, name, amount, permission, bottles_per_crate FROM products WHERE id = ?");
         $stmt->execute([$pid]);

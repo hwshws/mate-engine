@@ -152,8 +152,8 @@ function refreshRow(row, rowData) {
     row.dataset.permission = rowData.permission;
     let amtCol;
     if (rowData.amount) {
-        const amt = Math.floor(rowData.amount);
-        const btls = (rowData.amount % 1) * rowData.bottles_per_crate;
+        const amt = Math.floor(+rowData.amount);
+        const btls = Math.floor((rowData.amount % 1) * rowData.bottles_per_crate);
         row.dataset.amt = `${amt};${btls}`;
         amtCol = `${amt} Kästen und ${btls} Flaschen`;
         row.dataset.bpc = rowData.bottles_per_crate;
@@ -194,7 +194,7 @@ add.addEventListener("click", () => {
     const row = document.createElement("tr");
     row.innerHTML = `
         <td><input type="text" name="name" placeholder="Name" required></td>
-        <td><input type="number" name="price" value="0.00" min="0" placeholder="Preis" required></td>
+        <td><input type="number" name="price" value="0.00" min="0" step="0.01" placeholder="Preis" required></td>
         <td><input type="number" name="crates" value="0" min="0" required> Kästen und <input type="number" name="bottles" value="0" min="0" required> Flaschen</td>
         <td><input type="number" name="bpc" value="0" min="1" placeholder="Flaschen pro Kasten" required></td>
         <td>
